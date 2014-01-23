@@ -2,6 +2,9 @@ package no.wtw.android.restserviceutils;
 
 import android.text.TextUtils;
 import android.util.Log;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
@@ -9,6 +12,9 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.ResponseErrorHandler;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class RestServiceErrorHandler implements ResponseErrorHandler {
@@ -24,20 +30,47 @@ public class RestServiceErrorHandler implements ResponseErrorHandler {
 
     @Override
     public void handleError(ClientHttpResponse response) throws RestServiceException {
+        throw new RestServiceException(
+                getResponseCode(response),
+                getErrorMessage(response),
+                getErrorObject(response));
+    }
+
+    private HttpStatus getResponseCode(ClientHttpResponse response) {
+        try {
+            return response.getStatusCode();
+        } catch (IOException e) {
+            Log.e(TAG, "Response code not found in reply");
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+    }
+
+    private String getErrorMessage(ClientHttpResponse response) {
         HttpHeaders headers = response.getHeaders();
         if (headers != null) {
             List<String> messageList = headers.get(getErrorMessageHeader());
-            String message = messageList == null ? "" : TextUtils.join("\n", messageList);
-            HttpStatus responseCode;
-            try {
-                responseCode = response.getStatusCode();
-            } catch (IOException e) {
-                Log.e(TAG, "Response code not found in reply");
-                responseCode = HttpStatus.INTERNAL_SERVER_ERROR;
-            }
-            throw new RestServiceException(responseCode, message);
+            return messageList == null ? "" : TextUtils.join("\n", messageList);
         }
-        throw new RestServiceException(HttpStatus.INTERNAL_SERVER_ERROR, "Unknown error, headers missing");
+        return "Unknown error, headers missing";
+    }
+
+    private RestServiceErrorObject getErrorObject(ClientHttpResponse response) {
+        StringWriter writer = new StringWriter();
+        try {
+            InputStream stream = response.getBody();
+            IOUtils.copy(stream, writer, StandardCharsets.UTF_8.name());
+            if (stream != null)
+                stream.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to read error body");
+            Log.e(TAG, e.getMessage());
+        }
+        try {
+            return new Gson().fromJson(writer.toString(), RestServiceErrorObject.class);
+        } catch (JsonSyntaxException e) {
+            Log.e(TAG, "Failed to parse RestServiceErrorObject");
+            return new RestServiceErrorObject();
+        }
     }
 
     protected String getErrorMessageHeader() {
