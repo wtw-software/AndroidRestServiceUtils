@@ -6,7 +6,7 @@
 
     <groupId>no.wtw.android</groupId>
     <artifactId>rest-service-utils</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
     <packaging>apklib</packaging>
     <name>AndroidRestServiceUtils</name>
 
@@ -16,6 +16,13 @@
         <developerConnection>scm:git:git@github.com:wtw-software/AndroidRestServiceUtils.git</developerConnection>
     </scm>
 
+    <distributionManagement>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>wtw-maven-repo</id>
+            <url>scp://maven.wtw.no/srv/maven/</url>
+        </repository>
+    </distributionManagement>
 
     <developers>
         <developer>
@@ -54,6 +61,14 @@
     <build>
         <finalName>${project.name}-v${project.version}</finalName>
         <sourceDirectory>src</sourceDirectory>
+
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.4</version>
+            </extension>
+        </extensions>
 
         <pluginManagement>
             <plugins>
