@@ -10,6 +10,13 @@
     <packaging>apklib</packaging>
     <name>AndroidRestServiceUtils</name>
 
+    <scm>
+        <connection>scm:git:git@github.com/wtw-software/AndroidRestServiceUtils.git</connection>
+        <url>scm:git:git@github.com:wtw-software/AndroidRestServiceUtils.git</url>
+        <developerConnection>scm:git:git@github.com:wtw-software/AndroidRestServiceUtils.git</developerConnection>
+    </scm>
+
+
     <developers>
         <developer>
             <id>1</id>
