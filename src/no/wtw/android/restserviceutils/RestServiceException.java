@@ -41,13 +41,13 @@ public class RestServiceException extends IOException {
             return (RestServiceException) e;
 
         if (e instanceof HttpMessageConversionException)
-            return new RestServiceException(HttpStatus.NO_CONTENT, "Could not parse content");
+            return new RestServiceException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not parse content", e);
 
         if (e instanceof ResourceAccessException)
-            return new RestServiceException(HttpStatus.SERVICE_UNAVAILABLE, "Could not access remote server");
+            return new RestServiceException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not access remote server", e);
 
         if (e instanceof RestClientException)
-            return new RestServiceException(HttpStatus.INTERNAL_SERVER_ERROR, "Unknown client error");
+            return new RestServiceException(HttpStatus.INTERNAL_SERVER_ERROR, "Unknown client error", e);
 
         return new RestServiceException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
     }
