@@ -14,7 +14,6 @@ import org.springframework.web.client.ResponseErrorHandler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class RestServiceErrorHandler implements ResponseErrorHandler {
@@ -58,7 +57,7 @@ public class RestServiceErrorHandler implements ResponseErrorHandler {
         StringWriter writer = new StringWriter();
         try {
             InputStream stream = response.getBody();
-            IOUtils.copy(stream, writer, StandardCharsets.UTF_8.name());
+            IOUtils.copy(stream, writer, "UTF-8");
             if (stream != null)
                 stream.close();
         } catch (IOException e) {
@@ -69,7 +68,7 @@ public class RestServiceErrorHandler implements ResponseErrorHandler {
             return new Gson().fromJson(writer.toString(), RestServiceErrorObject.class);
         } catch (JsonSyntaxException e) {
             Log.e(TAG, "Failed to parse RestServiceErrorObject");
-            return new RestServiceErrorObject();
+            return new RestServiceErrorObject(writer.toString());
         }
     }
 

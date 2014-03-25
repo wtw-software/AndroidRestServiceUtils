@@ -59,4 +59,15 @@ public class RestServiceException extends IOException {
     public RestServiceErrorObject getErrorObject() {
         return errorObject;
     }
+
+    @Override
+    public String getMessage() {
+        String message = super.getMessage();
+        if (message == null || message.equals("")) {
+            RestServiceErrorObject eo = getErrorObject();
+            if (eo != null)
+                return eo.getMessage();
+        }
+        return message;
+    }
 }

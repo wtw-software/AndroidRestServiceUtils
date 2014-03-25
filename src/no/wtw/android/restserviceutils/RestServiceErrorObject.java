@@ -11,4 +11,18 @@ public class RestServiceErrorObject {
     @SerializedName("subCode")
     private int subCode = -1;
 
+    public RestServiceErrorObject(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        if (message == null)
+            return "";
+        return message;
+    }
+
+    @Override
+    public String toString() {
+        return code + "/" + code + " " + message != null ? message : "";
+    }
 }
