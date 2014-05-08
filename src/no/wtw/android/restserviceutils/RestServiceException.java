@@ -15,21 +15,27 @@ public class RestServiceException extends IOException {
     private RestServiceErrorObject errorObject;
 
     public RestServiceException(HttpStatus statusCode, String message, RestServiceErrorObject errorObject) {
-        this(statusCode, message);
+        super(message);
+        setStatusCode(statusCode);
         this.errorObject = errorObject;
+        Log.e(TAG, toString());
     }
 
     public RestServiceException(HttpStatus statusCode, String message, Throwable cause) {
-        this(statusCode, message);
+        super(message);
         initCause(cause);
+        setStatusCode(statusCode);
+        Log.e(TAG, toString());
     }
 
     public RestServiceException(HttpStatus statusCode, String message) {
         super(message);
+        setStatusCode(statusCode);
+        Log.e(TAG, toString());
+    }
+
+    private void setStatusCode(HttpStatus statusCode) {
         this.statusCode = statusCode == null ? HttpStatus.I_AM_A_TEAPOT : statusCode;
-        Log.e(TAG, statusCode.toString() + " " + statusCode.name() + " - " + message);
-        if (getCause() != null)
-            Log.e(TAG, getCause().toString());
     }
 
     public static RestServiceException getInstance(Exception e) {
@@ -69,5 +75,13 @@ public class RestServiceException extends IOException {
                 return eo.getMessage();
         }
         return message;
+    }
+
+    @Override
+    public String toString() {
+        String toString = statusCode.toString() + " " + statusCode.name() + " - " + getMessage();
+        if (getCause() != null)
+            toString += "\n(Caused by: " + getCause().toString() + ")";
+        return toString;
     }
 }

@@ -6,7 +6,7 @@
 
     <groupId>no.wtw.android</groupId>
     <artifactId>rest-service-utils</artifactId>
-    <version>1.4</version>
+    <version>1.5</version>
     <packaging>apklib</packaging>
     <name>AndroidRestServiceUtils</name>
 
