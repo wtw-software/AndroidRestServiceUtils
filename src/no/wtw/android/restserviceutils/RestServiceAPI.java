@@ -32,7 +32,7 @@ public abstract class RestServiceAPI {
      * @throws no.wtw.android.restserviceutils.RestServiceException
      */
     protected void checkNetwork() throws RestServiceException {
-        if (isOnline())
+        if (!isOnline())
             throw new RestServiceException(HttpStatus.SERVICE_UNAVAILABLE, "Network unavailable");
     }
 
