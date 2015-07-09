@@ -23,7 +23,7 @@ public abstract class RestServiceAPI {
         getRestTemplate().setErrorHandler(new RestServiceErrorHandler());
     }
 
-    public boolean isOnline() throws RestServiceException {
+    public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected();
     }
