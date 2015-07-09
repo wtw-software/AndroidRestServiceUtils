@@ -1,14 +1,10 @@
 package no.wtw.android.restserviceutils;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.os.Build;
-import android.util.Log;
-import android.view.Display;
-import android.view.WindowManager;
+import android.util.DisplayMetrics;
 
 public class UserAgentFormatter {
 
@@ -17,9 +13,7 @@ public class UserAgentFormatter {
     }
 
     private static String getAppName(Context context) {
-        String name = context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
-        Log.d("NAME: ", name);
-        return name;
+        return context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
     }
 
     public static String getVersion(Context context) {
@@ -32,18 +26,9 @@ public class UserAgentFormatter {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    @SuppressWarnings("deprecation")
     public static String getScreenSize(Context context) {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        if (Build.VERSION.SDK_INT >= 13) {
-            Point size = new Point();
-            display.getSize(size);
-            return size.x + "x" + size.y;
-        } else {
-            return display.getWidth() + "x" + display.getHeight();
-        }
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return metrics.widthPixels + "x" + metrics.heightPixels;
     }
 
     public static String getDevice() {
