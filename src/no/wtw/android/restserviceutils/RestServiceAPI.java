@@ -60,4 +60,9 @@ public abstract class RestServiceAPI {
         }
     }
 
+    protected void call(RestCall<Void> restCall) throws RestServiceException {
+        call(restCall);
+        return;
+    }
+
 }
