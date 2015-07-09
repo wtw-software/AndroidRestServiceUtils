@@ -2,7 +2,6 @@ package no.wtw.android.restserviceutils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.util.Log;
 import org.springframework.http.HttpAuthentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -47,17 +46,8 @@ public abstract class RestServiceAPI {
 
     public abstract HttpAuthentication getAuthentication();
 
-    protected <T, C extends RestServiceCallable<T>> T call(C restCall) throws RestServiceException {
-        try {
-            checkNetwork();
-            setAuthentication();
-            return restCall.executeInternal();
-        } catch (Exception e) {
-            if (e.getMessage() != null)
-                Log.e(TAG, e.getMessage());
-            e.printStackTrace();
-            throw RestServiceException.getInstance(e);
-        }
+    public <T, C extends AbstractRestCall<T>> T call(C call) throws RestServiceException {
+        return RestCallBuilder.with(this).call(call);
     }
 
 }

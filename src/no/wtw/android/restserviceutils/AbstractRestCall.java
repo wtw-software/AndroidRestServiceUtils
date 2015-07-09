@@ -1,6 +1,9 @@
 package no.wtw.android.restserviceutils;
 
-interface RestServiceCallable<T> {
+abstract class AbstractRestCall<T> {
+
+    protected AbstractRestCall() {
+    }
 
     public abstract T executeInternal() throws Exception;
 
