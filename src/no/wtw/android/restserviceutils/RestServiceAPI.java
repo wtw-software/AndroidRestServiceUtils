@@ -47,22 +47,17 @@ public abstract class RestServiceAPI {
 
     public abstract HttpAuthentication getAuthentication();
 
-    protected <T> T call(RestCall<T> restCall) throws RestServiceException {
+    protected <T, C extends RestServiceCallable<T>> T call(C restCall) throws RestServiceException {
         try {
             checkNetwork();
             setAuthentication();
-            return restCall.execute();
+            return restCall.executeInternal();
         } catch (Exception e) {
             if (e.getMessage() != null)
                 Log.e(TAG, e.getMessage());
             e.printStackTrace();
             throw RestServiceException.getInstance(e);
         }
-    }
-
-    protected void call(RestCall<Void> restCall) throws RestServiceException {
-        call(restCall);
-        return;
     }
 
 }
