@@ -3,6 +3,7 @@ package no.wtw.android.restserviceutils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import org.springframework.http.HttpAuthentication;
+import org.springframework.http.HttpBasicAuthentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
@@ -42,9 +43,9 @@ public abstract class RestServiceAPI {
 
     public abstract Context getContext();
 
-    public abstract void setAuthentication();
-
-    public abstract HttpAuthentication getAuthentication();
+    public HttpAuthentication getAuthentication() {
+        return new HttpBasicAuthentication("", "");
+    }
 
     public <T, C extends AbstractRestCall<T>> T call(C call) throws RestServiceException {
         return RestCallBuilder.with(this).call(call);

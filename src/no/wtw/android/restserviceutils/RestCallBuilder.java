@@ -7,7 +7,6 @@ public class RestCallBuilder {
     private static final String TAG = RestCallBuilder.class.getSimpleName();
 
     private RestServiceAPI restServiceAPI;
-    private boolean isAuth = true;
     private boolean isNetworkCheck = true;
 
     private RestCallBuilder() {
@@ -19,11 +18,6 @@ public class RestCallBuilder {
         return restCallBuilder;
     }
 
-    public RestCallBuilder auth(boolean shouldSetAuthentication) {
-        this.isAuth = shouldSetAuthentication;
-        return this;
-    }
-
     public RestCallBuilder online(boolean shouldCheckNeworkConnection) {
         this.isNetworkCheck = shouldCheckNeworkConnection;
         return this;
@@ -33,8 +27,6 @@ public class RestCallBuilder {
         try {
             if (isNetworkCheck)
                 restServiceAPI.checkNetwork();
-            if (isAuth)
-                restServiceAPI.setAuthentication();
             return call.executeInternal();
         } catch (Exception e) {
             if (e.getMessage() != null)
