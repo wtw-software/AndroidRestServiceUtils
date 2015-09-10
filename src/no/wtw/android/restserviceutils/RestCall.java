@@ -3,7 +3,7 @@ package no.wtw.android.restserviceutils;
 public abstract class RestCall<T> extends AbstractRestCall<T> {
 
     @Override
-    final public T executeInternal() throws Exception {
+    public T executeInternal() throws Exception {
         return run();
     }
 

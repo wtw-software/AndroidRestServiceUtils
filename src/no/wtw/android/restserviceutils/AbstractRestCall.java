@@ -1,6 +1,6 @@
 package no.wtw.android.restserviceutils;
 
-abstract class AbstractRestCall<T> {
+public abstract class AbstractRestCall<T> {
 
     protected AbstractRestCall() {
     }

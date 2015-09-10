@@ -3,7 +3,7 @@ package no.wtw.android.restserviceutils;
 public abstract class RestCallSimple extends AbstractRestCall<Void> {
 
     @Override
-    final public Void executeInternal() throws Exception {
+    public Void executeInternal() throws Exception {
         run();
         return null;
     }
