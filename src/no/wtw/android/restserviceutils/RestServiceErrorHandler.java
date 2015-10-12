@@ -48,7 +48,15 @@ public class RestServiceErrorHandler implements ResponseErrorHandler {
         HttpHeaders headers = response.getHeaders();
         if (headers != null) {
             List<String> messageList = headers.get(getErrorMessageHeader());
-            return messageList == null ? "" : TextUtils.join("\n", messageList);
+            if (messageList != null) {
+                return TextUtils.join("\n", messageList);
+            } else {
+                try {
+                    return response.getStatusText();
+                } catch (IOException e) {
+                    return "";
+                }
+            }
         }
         return "Unknown error, headers missing";
     }
@@ -67,7 +75,6 @@ public class RestServiceErrorHandler implements ResponseErrorHandler {
         try {
             return new Gson().fromJson(writer.toString(), RestServiceErrorObject.class);
         } catch (JsonSyntaxException e) {
-            Log.e(TAG, "Failed to parse RestServiceErrorObject");
             return new RestServiceErrorObject(writer.toString());
         }
     }

@@ -84,8 +84,13 @@ public class RestServiceException extends IOException {
     @Override
     public String toString() {
         String toString = statusCode.toString() + " " + statusCode.name() + " - " + getMessage();
+        if (errorObject != null) {
+            String errorObjectMessage = errorObject.getMessage();
+            if (errorObjectMessage != null && !errorObjectMessage.equals(""))
+                toString += " (" + errorObjectMessage + ")";
+        }
         if (getCause() != null)
-            toString += "\n(Caused by: " + getCause().toString() + ")";
+            toString += "\nCaused by: " + getCause().toString() + "";
         return toString;
     }
 }
