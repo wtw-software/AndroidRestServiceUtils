@@ -15,23 +15,27 @@ public class RestServiceException extends IOException {
     private RestServiceErrorObject errorObject;
 
     public RestServiceException(HttpStatus statusCode, String message, RestServiceErrorObject errorObject) {
-        super(message);
+        this(message);
         setStatusCode(statusCode);
         this.errorObject = errorObject;
         Log.e(TAG, toString());
     }
 
     public RestServiceException(HttpStatus statusCode, String message, Throwable cause) {
-        super(message);
+        this(message);
         initCause(cause);
         setStatusCode(statusCode);
         Log.e(TAG, toString());
     }
 
     public RestServiceException(HttpStatus statusCode, String message) {
-        super(message);
+        this(message);
         setStatusCode(statusCode);
         Log.e(TAG, toString());
+    }
+
+    public RestServiceException(String message) {
+        super(message == null || message.equals("") ? "Unknown error" : message);
     }
 
     private void setStatusCode(HttpStatus statusCode) {
