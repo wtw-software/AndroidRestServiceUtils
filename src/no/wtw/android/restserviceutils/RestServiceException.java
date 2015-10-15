@@ -72,18 +72,18 @@ public class RestServiceException extends IOException {
 
     @Override
     public String getMessage() {
-        String message = super.getMessage();
-        if (message == null || message.equals("")) {
-            RestServiceErrorObject eo = getErrorObject();
-            if (eo != null)
-                return eo.getMessage();
+        RestServiceErrorObject eo = getErrorObject();
+        if (eo != null) {
+            String message = eo.getMessage();
+            if (!message.equals(""))
+                return message;
         }
-        return message;
+        return super.getMessage();
     }
 
     @Override
     public String toString() {
-        String toString = statusCode.toString() + " " + statusCode.name() + " - " + getMessage();
+        String toString = statusCode.toString() + " " + statusCode.name() + " - " + super.getMessage();
         if (errorObject != null) {
             String errorObjectMessage = errorObject.getMessage();
             if (errorObjectMessage != null && !errorObjectMessage.equals(""))
