@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="could_not_connect">Fikk ikke kontakt med server</string>
-    <string name="unknown_error">Ukjent feil. Prøv igjen, eller kontakt kundeservice hvis feilen vedvarer.
-    </string>
-</resources>
