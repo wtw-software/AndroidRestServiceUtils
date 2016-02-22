@@ -1,2 +1,1 @@
-include ':android-rest-service-utils'
-rootProject.name = 'android-rest-service-utils'
+include ':androidRestServiceUtils'
