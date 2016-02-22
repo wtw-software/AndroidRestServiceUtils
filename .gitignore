@@ -9,7 +9,7 @@
 *.class
 
 app/build/*
-build/*
+**/build/*
 .gradle/*
 **/values-nb/strings.xml
 
