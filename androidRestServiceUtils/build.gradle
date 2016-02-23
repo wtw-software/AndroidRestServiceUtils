@@ -14,11 +14,6 @@ android {
         versionCode 2601
         versionName version
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-    }
 }
 
 dependencies {
