@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group='com.github.wtw-software'
-version = '2.6.1'
+version = '2.7'
 
 android {
     compileSdkVersion 23

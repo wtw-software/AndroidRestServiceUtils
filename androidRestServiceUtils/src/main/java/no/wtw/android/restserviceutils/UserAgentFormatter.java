@@ -28,7 +28,7 @@ public class UserAgentFormatter {
 
     public static String getScreenSize(Context context) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        return metrics.widthPixels + "x" + metrics.heightPixels;
+        return metrics.widthPixels + "x" + metrics.heightPixels + "@" + metrics.density;
     }
 
     public static String getDevice() {
