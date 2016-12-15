@@ -2,6 +2,7 @@ package no.wtw.android.restserviceutils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+
 import org.springframework.http.HttpAuthentication;
 import org.springframework.http.HttpBasicAuthentication;
 import org.springframework.http.HttpStatus;
