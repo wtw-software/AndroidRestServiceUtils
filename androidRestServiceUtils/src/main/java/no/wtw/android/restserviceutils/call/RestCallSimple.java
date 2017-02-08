@@ -1,4 +1,4 @@
-package no.wtw.android.restserviceutils;
+package no.wtw.android.restserviceutils.call;
 
 public abstract class RestCallSimple extends AbstractRestCall<Void> {
 

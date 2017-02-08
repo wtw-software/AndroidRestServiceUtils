@@ -1,6 +1,9 @@
-package no.wtw.android.restserviceutils;
+package no.wtw.android.restserviceutils.call;
 
 import android.util.Log;
+
+import no.wtw.android.restserviceutils.RestServiceAPI;
+import no.wtw.android.restserviceutils.exceptions.RestServiceException;
 
 public class RestCallBuilder {
 

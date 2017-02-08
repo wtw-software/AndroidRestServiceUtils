@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.List;
 
+import no.wtw.android.restserviceutils.exceptions.RestServiceException;
+
 public class RestServiceErrorHandler implements ResponseErrorHandler {
 
     public static final String ERROR_MESSAGE_HEADER = "x-wtw-errormessage";

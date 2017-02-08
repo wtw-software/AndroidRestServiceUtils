@@ -1,4 +1,4 @@
-package no.wtw.android.restserviceutils;
+package no.wtw.android.restserviceutils.exceptions;
 
 import android.util.Log;
 import org.springframework.http.HttpStatus;
@@ -7,6 +7,8 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 
 import java.io.IOException;
+
+import no.wtw.android.restserviceutils.RestServiceErrorObject;
 
 public class RestServiceException extends IOException {
 

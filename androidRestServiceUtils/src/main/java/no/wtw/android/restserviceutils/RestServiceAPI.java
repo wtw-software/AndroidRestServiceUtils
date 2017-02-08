@@ -11,6 +11,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 
+import no.wtw.android.restserviceutils.call.AbstractRestCall;
+import no.wtw.android.restserviceutils.call.RestCallBuilder;
+import no.wtw.android.restserviceutils.exceptions.RestServiceException;
+
 public abstract class RestServiceAPI {
 
     private static final String TAG = RestServiceAPI.class.getSimpleName();
@@ -33,9 +37,9 @@ public abstract class RestServiceAPI {
      * Convenience method that throws an exception if network connection is not available.
      * May be overridden by sub class to provide better information on what to do in offline cases.
      *
-     * @throws no.wtw.android.restserviceutils.RestServiceException
+     * @throws RestServiceException
      */
-    protected void checkNetwork() throws RestServiceException {
+    public void checkNetwork() throws RestServiceException {
         if (!isOnline())
             throw new RestServiceException(HttpStatus.SERVICE_UNAVAILABLE, "Network unavailable");
     }
