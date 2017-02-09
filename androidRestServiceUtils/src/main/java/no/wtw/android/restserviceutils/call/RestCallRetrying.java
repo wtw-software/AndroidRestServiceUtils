@@ -10,7 +10,7 @@ import java.io.EOFException;
 import no.wtw.android.restserviceutils.BuildConfig;
 import no.wtw.android.restserviceutils.exceptions.RestServiceException;
 
-abstract class RestCallRetrying<T> extends AbstractRestCall<T> {
+public abstract class RestCallRetrying<T> extends AbstractRestCall<T> {
 
     private static final String TAG = RestCallRetrying.class.getSimpleName();
 
