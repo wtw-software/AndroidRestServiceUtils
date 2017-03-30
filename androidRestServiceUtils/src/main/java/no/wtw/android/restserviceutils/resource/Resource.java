@@ -16,7 +16,7 @@ public class Resource implements Serializable {
         return getLink(null, type);
     }
 
-    protected <C> Link<C> getLink(Class<C> clazz, String type) throws NoSuchLinkException {
+    protected <C, CC extends C> Link<C> getLink(Class<CC> clazz, String type) throws NoSuchLinkException {
         Link link = null;
         if (links != null && links.size() > 0)
             link = getLinkInternal(clazz, type, links);
