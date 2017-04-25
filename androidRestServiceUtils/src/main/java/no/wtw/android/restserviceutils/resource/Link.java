@@ -39,31 +39,26 @@ public class Link<T> implements Serializable {
     public T httpGet(RestTemplate restTemplate) {
         if (clazz == null)
             throw new RuntimeException("Class of return object must be set");
-        if (resource == null)
-            resource = restTemplate.getForObject(getUrl().toExternalForm(), clazz);
+        resource = restTemplate.getForObject(getUrl().toExternalForm(), clazz);
         return resource;
     }
 
     public T httpGet(RestTemplate restTemplate, JsonEncodedQuery query) {
         if (clazz == null)
             throw new RuntimeException("Class of return object must be set");
-        if (resource == null) {
-            String url = getUrl().toExternalForm();
-            url = url.replace("?data=Base64", ""); // TODO: remove this hack
-            resource = restTemplate.getForObject(url + "?data=" + query.encode(true), clazz);
-        }
+        String url = getUrl().toExternalForm();
+        url = url.replace("?data=Base64", ""); // TODO: remove this hack
+        resource = restTemplate.getForObject(url + "?data=" + query.encode(true), clazz);
         return resource;
     }
 
     public T httpGet(RestTemplate restTemplate, Map<String, String> queryParams) {
         if (clazz == null)
             throw new RuntimeException("Class of return object must be set");
-        if (resource == null) {
-            String queryString = "";
-            for (String key : queryParams.keySet())
-                queryString += key + "=" + queryParams.get(key) + "&";
-            resource = restTemplate.getForObject(getUrl().toExternalForm() + "?" + queryString.substring(0, queryString.length() - 1), clazz);
-        }
+        String queryString = "";
+        for (String key : queryParams.keySet())
+            queryString += key + "=" + queryParams.get(key) + "&";
+        resource = restTemplate.getForObject(getUrl().toExternalForm() + "?" + queryString.substring(0, queryString.length() - 1), clazz);
         return resource;
     }
 
