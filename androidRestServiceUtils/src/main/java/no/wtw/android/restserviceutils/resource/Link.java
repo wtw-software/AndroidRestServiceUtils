@@ -19,8 +19,8 @@ public class Link<T> implements Serializable {
 
     public static final String LINK_SELF = "self";
 
-    private T resource;
-    private Class<T> clazz;
+    private transient T resource;
+    private transient Class<T> clazz;
 
     @SerializedName("key")
     protected String relation;
