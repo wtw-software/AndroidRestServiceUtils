@@ -10,7 +10,7 @@ import no.wtw.android.restserviceutils.exceptions.NoSuchLinkException;
 public class Resource implements Serializable {
 
     @SerializedName("_links")
-    private transient List<Link> links;
+    private List<Link> links;
 
     protected Link getLink(String type) throws NoSuchLinkException {
         return getLink(null, type);
