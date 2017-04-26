@@ -45,7 +45,6 @@ public class RestServiceException extends IOException {
     }
 
     public static RestServiceException getInstance(Exception e) {
-
         Exception cause = (Exception) e.getCause();
         if (cause != null && cause instanceof RestServiceException)
             return (RestServiceException) cause;
