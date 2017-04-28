@@ -37,7 +37,11 @@ public class Resource implements Serializable, Comparable<Resource> {
 
     @Override
     public int compareTo(Resource o) {
-        return 0;
+        return getSortOrder() - o.getSortOrder();
     }
 
+    public int getSortOrder() {
+        return 0;
+    }
+    
 }
