@@ -7,7 +7,7 @@ import java.util.List;
 
 import no.wtw.android.restserviceutils.exceptions.NoSuchLinkException;
 
-public class Resource implements Serializable {
+public class Resource implements Serializable, Comparable<Resource> {
 
     @SerializedName("_links")
     private List<Link> links;
@@ -33,6 +33,11 @@ public class Resource implements Serializable {
             }
         }
         return null;
+    }
+
+    @Override
+    public int compareTo(Resource o) {
+        return 0;
     }
 
 }
