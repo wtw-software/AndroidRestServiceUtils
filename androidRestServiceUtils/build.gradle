@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group = 'com.github.wtw-software'
-version = '2.9.3'
+version = '2.9.4'
 
 android {
     compileSdkVersion 25
@@ -11,7 +11,7 @@ android {
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 25
-        versionCode 2903
+        versionCode 2904
         versionName version
     }
 }

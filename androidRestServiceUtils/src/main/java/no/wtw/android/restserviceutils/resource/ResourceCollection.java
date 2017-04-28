@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Collections;
 import java.util.List;
 
-public class ResourceCollection<D extends Comparable<D>> extends Resource {
+public class ResourceCollection<D extends Comparable<? super D>> extends Resource {
 
     @SerializedName("resource")
     private List<D> resources;

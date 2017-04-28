@@ -43,5 +43,5 @@ public class Resource implements Serializable, Comparable<Resource> {
     public int getSortOrder() {
         return 0;
     }
-    
+
 }
