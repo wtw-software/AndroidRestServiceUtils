@@ -35,6 +35,8 @@ public class Link<T> implements Serializable {
     @SerializedName("href")
     protected URL url;
 
+    private Map<String, String> queryParams;
+
     public String getRelation() {
         return relation;
     }
@@ -46,6 +48,8 @@ public class Link<T> implements Serializable {
     public T httpGet(final RestTemplate restTemplate) throws RestServiceException {
         if (clazz == null)
             throw new RuntimeException("Class of return object must be set");
+        if (getQueryParams() != null)
+            return httpGet(restTemplate, getQueryParams());
         return executeHttpCall(new HttpCall<T>() {
             @Override
             public T httpCall() throws Exception {
@@ -120,6 +124,14 @@ public class Link<T> implements Serializable {
         if (resource == null)
             throw new LinkNotResolvedException();
         return resource;
+    }
+
+    public void setQueryParams(Map<String, String> queryParams) {
+        this.queryParams = queryParams;
+    }
+
+    public Map<String, String> getQueryParams() {
+        return queryParams;
     }
 
     public void setClass(Class<T> clazz) {
