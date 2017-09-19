@@ -144,7 +144,6 @@ public class Link<T> implements Serializable {
         } catch (Exception e) {
             if (e.getMessage() != null)
                 Log.e(TAG, e.getMessage());
-            e.printStackTrace();
             throw RestServiceException.getInstance(e);
         }
     }
