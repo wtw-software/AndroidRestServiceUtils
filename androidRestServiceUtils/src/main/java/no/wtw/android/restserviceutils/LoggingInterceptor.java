@@ -41,13 +41,13 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
     }
 
     private void logRequest(HttpRequest request, byte[] data, ClientHttpResponse response) throws IOException {
-        Log.d(TAG, "Data: " + new String(data));
+        Log.v(TAG, "Data: " + new String(data));
         for (Object key : request.getHeaders().keySet())
-            Log.d(TAG, "<" + key + ">: " + request.getHeaders().get(key));
+            Log.v(TAG, "<" + key + ">: " + request.getHeaders().get(key));
         if (response != null) {
-            Log.d(TAG, "Status: " + response.getStatusCode() + " " + response.getStatusText());
+            Log.v(TAG, "Status: " + response.getStatusCode() + " " + response.getStatusText());
             if (response.getBody() != null)
-                Log.d(TAG, "Response: \n" + prettyJson(IOUtils.toString(response.getBody())) + "\n");
+                Log.v(TAG, "Response: \n" + prettyJson(IOUtils.toString(response.getBody())) + "\n");
         }
     }
 
