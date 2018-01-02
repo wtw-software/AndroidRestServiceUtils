@@ -1,1 +1,1 @@
-include ':androidRestServiceUtils'
+include ':library'
