@@ -126,6 +126,10 @@ public class Link<T> implements Serializable {
         return resource;
     }
 
+    public boolean isResolved() {
+        return resource != null;
+    }
+
     public void setQueryParams(Map<String, String> queryParams) {
         this.queryParams = queryParams;
     }
