@@ -8,7 +8,6 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Locale;
 
 public class RestServiceRequestInterceptor implements ClientHttpRequestInterceptor {
@@ -24,7 +23,6 @@ public class RestServiceRequestInterceptor implements ClientHttpRequestIntercept
     public ClientHttpResponse intercept(HttpRequest request, byte[] data, ClientHttpRequestExecution execution) throws IOException {
         HttpHeaders headers = request.getHeaders();
         headers.setUserAgent(UserAgentFormatter.getUserAgent(api.getContext()));
-        headers.setDate(new Date().getTime());
         headers.setAcceptLanguage(Locale.getDefault().getLanguage());
         HttpAuthentication authentication = api.getAuthentication();
         if (authentication != null)
