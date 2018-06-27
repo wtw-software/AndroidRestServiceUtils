@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import org.androidannotations.api.BackgroundExecutor;
-
 public class BackgroundLoader<D> {
 
     private final BackgroundTask<D> callback;

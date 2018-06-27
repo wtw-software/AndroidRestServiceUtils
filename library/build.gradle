@@ -34,13 +34,7 @@ android {
     }
 }
 
-ext.AAVersion = '4.4.0'
-
 dependencies {
-    annotationProcessor "org.androidannotations:androidannotations:${AAVersion}"
-    implementation "org.androidannotations:androidannotations-api:${AAVersion}"
-    annotationProcessor "org.androidannotations:rest-spring:${AAVersion}"
-    implementation "org.androidannotations:rest-spring-api:${AAVersion}"
     implementation 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     implementation 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
 
