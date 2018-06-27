@@ -3,6 +3,7 @@ package no.wtw.android.restserviceutils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import org.springframework.http.HttpAuthentication;
 import org.springframework.http.HttpBasicAuthentication;
@@ -12,11 +13,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 
-import no.wtw.android.restserviceutils.call.AbstractRestCall;
-import no.wtw.android.restserviceutils.call.RestCallBuilder;
 import no.wtw.android.restserviceutils.exceptions.RestServiceException;
 
-public abstract class RestServiceAPI {
+public abstract class RestServiceAPI<S> {
 
     private static final String TAG = RestServiceAPI.class.getSimpleName();
 
@@ -54,8 +53,21 @@ public abstract class RestServiceAPI {
         return new HttpBasicAuthentication("", "");
     }
 
-    public <T, C extends AbstractRestCall<T>> T call(C call) throws RestServiceException {
-        return RestCallBuilder.with(this).call(call);
+    public <T, C extends Call<S, T>> T call(C call) throws RestServiceException {
+        try {
+            checkNetwork();
+            return call.execute(getService());
+        } catch (Exception e) {
+            if (e.getMessage() != null)
+                Log.e("GoMarinaApi", e.getMessage());
+            throw RestServiceException.getInstance(e);
+        }
+    }
+
+    protected abstract S getService();
+
+    public interface Call<S, T> {
+        T execute(S service);
     }
 
 }
