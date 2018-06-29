@@ -48,7 +48,7 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
         if (response != null) {
             Log.v(TAG, "Status: " + response.getStatusCode() + " " + response.getStatusText());
             if (response.getBody() != null)
-                Log.v(TAG, "Response: \n" + prettyJson(IOUtils.toString(response.getBody(), Charset.defaultCharset())) + "\n");
+                Log.v(TAG, "Response: \n" + prettyJson(IOUtils.toString(response.getBody(), Charset.forName("UTF-8"))) + "\n");
         }
     }
 
