@@ -20,7 +20,6 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.nio.charset.Charset;
 
 public class LoggingInterceptor implements ClientHttpRequestInterceptor {
 
@@ -48,7 +47,7 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
         if (response != null) {
             Log.v(TAG, "Status: " + response.getStatusCode() + " " + response.getStatusText());
             if (response.getBody() != null)
-                Log.v(TAG, "Response: \n" + prettyJson(IOUtils.toString(response.getBody(), Charset.forName("UTF-8"))) + "\n");
+                Log.v(TAG, "Response: \n" + prettyJson(IOUtils.toString(response.getBody(), "UTF-8")) + "\n");
         }
     }
 
