@@ -59,7 +59,7 @@ public abstract class RestServiceAPI<S> {
             return call.execute(getService());
         } catch (Exception e) {
             if (e.getMessage() != null)
-                Log.e("GoMarinaApi", e.getMessage());
+                Log.e(TAG, e.getMessage());
             throw RestServiceException.getInstance(e);
         }
     }
