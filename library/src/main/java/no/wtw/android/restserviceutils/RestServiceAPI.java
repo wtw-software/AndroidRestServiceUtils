@@ -64,7 +64,7 @@ public abstract class RestServiceAPI<S> {
         }
     }
 
-    public <C extends CallVoid<S>> void call(C call) throws RestServiceException {
+    public <C extends VoidCall<S>> void callVoid(C call) throws RestServiceException {
         try {
             checkNetwork();
             call.execute(getService());
@@ -81,7 +81,7 @@ public abstract class RestServiceAPI<S> {
         T execute(S service);
     }
 
-    public interface CallVoid<S> {
+    public interface VoidCall<S> {
         void execute(S service);
     }
 
