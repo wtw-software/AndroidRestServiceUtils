@@ -64,10 +64,25 @@ public abstract class RestServiceAPI<S> {
         }
     }
 
+    public <C extends CallVoid<S>> void call(C call) throws RestServiceException {
+        try {
+            checkNetwork();
+            call.execute(getService());
+        } catch (Exception e) {
+            if (e.getMessage() != null)
+                Log.e(TAG, e.getMessage());
+            throw RestServiceException.getInstance(e);
+        }
+    }
+
     protected abstract S getService();
 
     public interface Call<S, T> {
         T execute(S service);
+    }
+
+    public interface CallVoid<S> {
+        void execute(S service);
     }
 
 }
