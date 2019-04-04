@@ -1,5 +1,7 @@
 package no.wtw.android.restserviceutils.resource;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -20,7 +22,7 @@ public class Resource implements Serializable, Comparable<Resource> {
         Link link = null;
         if (links != null && links.size() > 0)
             link = getLinkInternal(clazz, type, links);
-        if (link == null || link.getUrl() == null)
+        if (link == null || TextUtils.isEmpty(link.getUrl()))
             throw new NoSuchLinkException("Link for relation \"" + type + "\" in " + this.getClass().getSimpleName() + " does not exist");
         return link;
     }

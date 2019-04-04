@@ -13,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
 import java.net.URI;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +32,7 @@ public class Link<T> implements Serializable {
     protected String relation;
 
     @SerializedName("href")
-    protected URL url;
+    protected String url;
 
     private Map<String, String> queryParams;
 
@@ -41,7 +40,7 @@ public class Link<T> implements Serializable {
         return relation;
     }
 
-    public URL getUrl() {
+    public String getUrl() {
         return url;
     }
 
@@ -53,7 +52,7 @@ public class Link<T> implements Serializable {
         return executeHttpCall(new HttpCall<T>() {
             @Override
             public T httpCall() throws Exception {
-                resource = restTemplate.getForObject(getUrl().toExternalForm(), clazz);
+                resource = restTemplate.getForObject(getUrl(), clazz);
                 return resource;
             }
         });
@@ -65,8 +64,7 @@ public class Link<T> implements Serializable {
         return executeHttpCall(new HttpCall<T>() {
             @Override
             public T httpCall() throws Exception {
-                String url = getUrl().toExternalForm();
-                url = url.replace("?data=Base64", ""); // TODO: remove this hack
+                String url = getUrl().replace("?data=Base64", ""); // TODO: remove this hack
                 resource = restTemplate.getForObject(url + "?data=" + query.encode(true), clazz);
                 return resource;
             }
@@ -82,7 +80,7 @@ public class Link<T> implements Serializable {
                 String queryString = "";
                 for (String key : queryParams.keySet())
                     queryString += key + "=" + queryParams.get(key) + "&";
-                resource = restTemplate.getForObject(getUrl().toExternalForm() + "?" + queryString.substring(0, queryString.length() - 1), clazz);
+                resource = restTemplate.getForObject(getUrl() + "?" + queryString.substring(0, queryString.length() - 1), clazz);
                 return resource;
             }
         });
@@ -93,7 +91,7 @@ public class Link<T> implements Serializable {
             @Override
             public T httpCall() throws Exception {
                 HttpEntity<T> requestEntity = new HttpEntity<>(body, new HttpHeaders());
-                ResponseEntity<T> responseEntity = restTemplate.exchange(URI.create(getUrl().toExternalForm()), HttpMethod.PUT, requestEntity, clazz);
+                ResponseEntity<T> responseEntity = restTemplate.exchange(URI.create(getUrl()), HttpMethod.PUT, requestEntity, clazz);
                 if (HttpStatus.OK.equals(responseEntity.getStatusCode()))
                     resource = responseEntity.getBody();
                 return resource;
@@ -105,7 +103,7 @@ public class Link<T> implements Serializable {
         return executeHttpCall(new HttpCall<T>() {
             @Override
             public T httpCall() throws Exception {
-                return restTemplate.postForEntity(getUrl().toExternalForm(), body, clazz, new HashMap<String, Object>()).getBody();
+                return restTemplate.postForEntity(getUrl(), body, clazz, new HashMap<String, Object>()).getBody();
             }
         });
     }
@@ -114,7 +112,7 @@ public class Link<T> implements Serializable {
         executeHttpCall(new HttpCall<Void>() {
             @Override
             public Void httpCall() throws Exception {
-                restTemplate.delete(getUrl().toExternalForm());
+                restTemplate.delete(getUrl());
                 return null;
             }
         });
