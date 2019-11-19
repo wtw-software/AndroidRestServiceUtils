@@ -12,7 +12,7 @@ import no.wtw.android.restserviceutils.exceptions.NoSuchLinkException;
 public class Resource implements Serializable, Comparable<Resource> {
 
     @SerializedName("_links")
-    protected LinkList links;
+    public LinkList links;
 
     protected Link getLink(String type) throws NoSuchLinkException {
         return getLink(null, type);
