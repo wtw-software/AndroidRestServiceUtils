@@ -49,72 +49,52 @@ public class Link<T> implements Serializable {
             throw new RuntimeException("Class of return object must be set");
         if (getQueryParams() != null)
             return httpGet(restTemplate, getQueryParams());
-        return executeHttpCall(new HttpCall<T>() {
-            @Override
-            public T httpCall() throws Exception {
-                resource = restTemplate.getForObject(getUrl(), clazz);
-                return resource;
-            }
+        return executeHttpCall(() -> {
+            resource = restTemplate.getForObject(getUrl(), clazz);
+            return resource;
         });
     }
 
     public T httpGet(final RestTemplate restTemplate, final JsonEncodedQuery query) throws RestServiceException {
         if (clazz == null)
             throw new RuntimeException("Class of return object must be set");
-        return executeHttpCall(new HttpCall<T>() {
-            @Override
-            public T httpCall() throws Exception {
-                String url = getUrl().replace("?data=Base64", ""); // TODO: remove this hack
-                resource = restTemplate.getForObject(url + "?data=" + query.encode(true), clazz);
-                return resource;
-            }
+        return executeHttpCall(() -> {
+            String url = getUrl().replace("?data=Base64", ""); // TODO: remove this hack
+            resource = restTemplate.getForObject(url + "?data=" + query.encode(true), clazz);
+            return resource;
         });
     }
 
     public T httpGet(final RestTemplate restTemplate, final Map<String, String> queryParams) throws RestServiceException {
         if (clazz == null)
             throw new RuntimeException("Class of return object must be set");
-        return executeHttpCall(new HttpCall<T>() {
-            @Override
-            public T httpCall() throws Exception {
-                String queryString = "";
-                for (String key : queryParams.keySet())
-                    queryString += key + "=" + queryParams.get(key) + "&";
-                resource = restTemplate.getForObject(getUrl() + "?" + queryString.substring(0, queryString.length() - 1), clazz);
-                return resource;
-            }
+        return executeHttpCall(() -> {
+            String queryString = "";
+            for (String key : queryParams.keySet())
+                queryString += key + "=" + queryParams.get(key) + "&";
+            resource = restTemplate.getForObject(getUrl() + "?" + queryString.substring(0, queryString.length() - 1), clazz);
+            return resource;
         });
     }
 
     public T httpPut(final RestTemplate restTemplate, final T body) throws RestServiceException {
-        return executeHttpCall(new HttpCall<T>() {
-            @Override
-            public T httpCall() throws Exception {
-                HttpEntity<T> requestEntity = new HttpEntity<>(body, new HttpHeaders());
-                ResponseEntity<T> responseEntity = restTemplate.exchange(URI.create(getUrl()), HttpMethod.PUT, requestEntity, clazz);
-                if (HttpStatus.OK.equals(responseEntity.getStatusCode()))
-                    resource = responseEntity.getBody();
-                return resource;
-            }
+        return executeHttpCall(() -> {
+            HttpEntity<T> requestEntity = new HttpEntity<>(body, new HttpHeaders());
+            ResponseEntity<T> responseEntity = restTemplate.exchange(URI.create(getUrl()), HttpMethod.PUT, requestEntity, clazz);
+            if (HttpStatus.OK.equals(responseEntity.getStatusCode()))
+                resource = responseEntity.getBody();
+            return resource;
         });
     }
 
     public T httpPost(final RestTemplate restTemplate, final Object body) throws RestServiceException {
-        return executeHttpCall(new HttpCall<T>() {
-            @Override
-            public T httpCall() throws Exception {
-                return restTemplate.postForEntity(getUrl(), body, clazz, new HashMap<String, Object>()).getBody();
-            }
-        });
+        return executeHttpCall(() -> restTemplate.postForEntity(getUrl(), body, clazz, new HashMap<>()).getBody());
     }
 
     public void httpDelete(final RestTemplate restTemplate) throws RestServiceException {
-        executeHttpCall(new HttpCall<Void>() {
-            @Override
-            public Void httpCall() throws Exception {
-                restTemplate.delete(getUrl());
-                return null;
-            }
+        executeHttpCall((HttpCall<Void>) () -> {
+            restTemplate.delete(getUrl());
+            return null;
         });
     }
 
@@ -150,8 +130,8 @@ public class Link<T> implements Serializable {
         }
     }
 
-    abstract class HttpCall<RT> {
-        public abstract RT httpCall() throws Exception;
+    interface HttpCall<RT> {
+        RT httpCall() throws Exception;
     }
 
 }
