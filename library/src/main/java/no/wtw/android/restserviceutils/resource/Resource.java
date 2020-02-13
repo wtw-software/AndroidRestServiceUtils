@@ -14,11 +14,11 @@ public class Resource implements Serializable, Comparable<Resource> {
     @SerializedName("_links")
     public LinkList links;
 
-    protected Link getLink(String type) throws NoSuchLinkException {
+    public Link getLink(String type) throws NoSuchLinkException {
         return getLink(null, type);
     }
 
-    protected <C, CC extends C> Link<C> getLink(Class<CC> clazz, String type) throws NoSuchLinkException {
+    public <C, CC extends C> Link<C> getLink(Class<CC> clazz, String type) throws NoSuchLinkException {
         Link link = null;
         if (links != null && links.size() > 0)
             link = getLinkInternal(clazz, type, links);
