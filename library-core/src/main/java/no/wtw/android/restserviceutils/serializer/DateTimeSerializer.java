@@ -1,7 +1,5 @@
 package no.wtw.android.restserviceutils.serializer;
 
-import android.text.TextUtils;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -20,7 +18,7 @@ public class DateTimeSerializer implements JsonDeserializer<DateTime>, JsonSeria
 
     @Override
     public DateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        if (json == null || TextUtils.isEmpty(json.getAsString()))
+        if (json == null || json.getAsString().isEmpty())
             return null;
         return TimeFormatUtil.getRFC822DateTimeFormatter().parseDateTime(json.getAsString());
     }

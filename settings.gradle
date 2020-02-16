@@ -1,1 +1,1 @@
-include ':library'
+include ':library', ':link-annotation', ':link-processor', ':library-core', ':appdemo'

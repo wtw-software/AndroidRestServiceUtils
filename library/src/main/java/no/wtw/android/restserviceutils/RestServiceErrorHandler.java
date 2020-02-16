@@ -2,8 +2,10 @@ package no.wtw.android.restserviceutils;
 
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,10 +33,7 @@ public class RestServiceErrorHandler implements ResponseErrorHandler {
 
     @Override
     public void handleError(ClientHttpResponse response) throws RestServiceException {
-        throw new RestServiceException(
-                getResponseCode(response),
-                getErrorMessage(response),
-                getErrorObject(response));
+        throw new RestServiceException(getResponseCode(response), getErrorMessage(response), getErrorObject(response));
     }
 
     private HttpStatus getResponseCode(ClientHttpResponse response) {

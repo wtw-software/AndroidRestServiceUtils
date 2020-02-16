@@ -1,6 +1,5 @@
 package no.wtw.android.restserviceutils;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -20,7 +19,6 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.nio.charset.Charset;
 
 public class LoggingInterceptor implements ClientHttpRequestInterceptor {
 
@@ -53,7 +51,7 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
     }
 
     public static String prettyJson(String body) {
-        if (TextUtils.isEmpty(body))
+        if (body == null || body.isEmpty())
             return body;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();

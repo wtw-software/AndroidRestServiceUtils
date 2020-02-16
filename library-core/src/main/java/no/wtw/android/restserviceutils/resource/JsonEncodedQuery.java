@@ -1,7 +1,6 @@
 package no.wtw.android.restserviceutils.resource;
 
-import android.util.Base64;
-import android.util.Log;
+import org.springframework.util.support.Base64;
 
 import java.io.Serializable;
 
@@ -18,9 +17,9 @@ public abstract class JsonEncodedQuery implements Serializable {
 
     protected String encode(boolean isBase64Encoded) {
         String json = GsonSingleton.getInstance().toJson(this);
-        Log.d(TAG, json);
+        System.out.println(json);
         if (isBase64Encoded)
-            return new String(Base64.encode(json.getBytes(), Base64.NO_WRAP));
+            return Base64.encodeBytes(json.getBytes());
         return json;
     }
 

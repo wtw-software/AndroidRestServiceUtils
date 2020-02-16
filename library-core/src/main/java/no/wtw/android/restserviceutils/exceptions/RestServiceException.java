@@ -1,6 +1,5 @@
 package no.wtw.android.restserviceutils.exceptions;
 
-import android.util.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.web.client.ResourceAccessException;
@@ -20,20 +19,20 @@ public class RestServiceException extends IOException {
         this(message);
         setStatusCode(statusCode);
         this.errorObject = errorObject;
-        Log.e(TAG, toString());
+        System.out.println(toString());
     }
 
     public RestServiceException(HttpStatus statusCode, String message, Throwable cause) {
         this(message);
         initCause(cause);
         setStatusCode(statusCode);
-        Log.e(TAG, toString());
+        System.out.println(toString());
     }
 
     public RestServiceException(HttpStatus statusCode, String message) {
         this(message);
         setStatusCode(statusCode);
-        Log.e(TAG, toString());
+        System.out.println(toString());
     }
 
     public RestServiceException(String message) {

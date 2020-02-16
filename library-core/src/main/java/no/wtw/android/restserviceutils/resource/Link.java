@@ -1,7 +1,5 @@
 package no.wtw.android.restserviceutils.resource;
 
-import android.util.Log;
-
 import com.google.gson.annotations.SerializedName;
 
 import org.springframework.http.HttpEntity;
@@ -125,7 +123,7 @@ public class Link<T> implements Serializable {
             return call.httpCall();
         } catch (Exception e) {
             if (e.getMessage() != null)
-                Log.e(TAG, e.getMessage());
+                System.out.println(e.getMessage());
             throw RestServiceException.getInstance(e);
         }
     }
