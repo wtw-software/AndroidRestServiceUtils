@@ -1,7 +1,4 @@
 apply plugin: 'java-library'
-apply plugin: 'com.github.dcendents.android-maven'
-
-group = 'com.github.wtw-software'
 
 dependencies {
     api 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
@@ -11,9 +8,6 @@ dependencies {
     api 'commons-io:commons-io:2.4'
     api 'joda-time:joda-time:2.10'
 }
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.java.srcDirs
