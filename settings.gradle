@@ -1,1 +1,1 @@
-include ':library', ':link-annotation', ':link-processor', ':library-core', ':appdemo'
+include ':library', ':linky-annotation', ':linky-processor', ':library-core', ':appdemo'

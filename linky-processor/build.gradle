@@ -10,8 +10,9 @@ compileKotlin {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'com.squareup:kotlinpoet:1.5.0'
-    api project(':link-annotation')
+    api project(':linky-annotation')
     implementation project(':library-core')
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.3.61"
 }
 
 task sourcesJar(type: Jar) {
