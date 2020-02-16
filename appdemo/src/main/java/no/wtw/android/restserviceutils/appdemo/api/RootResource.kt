@@ -8,6 +8,8 @@ import no.wtw.android.restserviceutils.resource.Resource
 
 @Linkys(
         Linky("deviceRegistration", MyModel::class),
+        Linky("split-word", MyModel::class),
+        Linky("snake_case", MyModel::class),
         Linky("login", LoginResponse::class)
 )
 data class RootResource(val a: String) : Resource()

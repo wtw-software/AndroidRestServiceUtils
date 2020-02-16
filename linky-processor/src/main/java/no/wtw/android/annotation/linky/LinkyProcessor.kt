@@ -51,7 +51,7 @@ class LinkyProcessor : AbstractProcessor() {
                         val linkClassName = ClassName.bestGuess(Link::class.qualifiedName.toString())
                         val paramClassName = ClassName.bestGuess(clazzValue.toString())
 
-                        builder.addFunction(FunSpec.builder("get" + linkValue.capitalize() + "Link")
+                        builder.addFunction(FunSpec.builder("get" + linkValue.toCamelCase() + "Link")
                                 .receiver(receiverClassName)
                                 .throws(LinkNotResolvedException::class)
                                 .addStatement("return this.getLink(%T::class.java, %S)", clazzValue, linkValue)
@@ -74,4 +74,11 @@ fun Linky.getClazz(): TypeMirror {
         return mte.typeMirror
     }
     throw RuntimeException("Type fetching failed")
+}
+
+fun String.toCamelCase(): String {
+    var result = ""
+    val split = this.split("-", "_")
+    split.forEach { s -> result += s.capitalize() }
+    return result
 }
