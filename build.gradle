@@ -19,6 +19,11 @@ allprojects {
     }
 }
 
+subprojects {
+    apply plugin: 'com.github.dcendents.android-maven'
+    group = 'com.github.wtw-software'
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
