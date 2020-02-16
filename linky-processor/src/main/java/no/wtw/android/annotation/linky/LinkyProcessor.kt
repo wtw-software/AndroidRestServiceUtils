@@ -11,6 +11,8 @@ import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.TypeElement
+import javax.lang.model.type.MirroredTypeException
+import javax.lang.model.type.TypeMirror
 import javax.lang.model.util.Elements
 import javax.lang.model.util.Types
 
@@ -32,53 +34,44 @@ class LinkyProcessor : AbstractProcessor() {
     }
 
     override fun process(annotations: Set<TypeElement?>, roundEnvironment: RoundEnvironment): Boolean {
-
-/*
-    fun RootResource.getDeviceRegistrationLink(): Link<DeviceRegistrationResponse> {
-        return this.getLink(DeviceRegistrationResponse::class.java, "deviceRegistration")
-    }
-*/
-
-        roundEnvironment.getElementsAnnotatedWith(Linky::class.java)
+        roundEnvironment.getElementsAnnotatedWith(Linkys::class.java)
                 .filter { it.kind === ElementKind.CLASS }
                 .forEach { element ->
                     val packageName = elements.getPackageOf(element).toString()
                     val annotatedClassName = element.simpleName.toString()
 
-                    val linkValue = element.getAnnotation(Linky::class.java).linkName
-                    val clazzValue = typeUtils.asElement(element.getAnnotation(Linky::class.java).getClazz())
+                    val builder = FileSpec.builder(packageName, annotatedClassName + "_LinkyExt")
 
-                    val receiverClassName = ClassName(packageName, annotatedClassName)
-                    val linkClassName = ClassName.bestGuess(Link::class.qualifiedName.toString())
-                    val paramClassName = ClassName.bestGuess(clazzValue.toString())
-                    val returnClassName = linkClassName.parameterizedBy(paramClassName)
+                    element.getAnnotation(Linkys::class.java).value.forEach { linky ->
 
-                    FileSpec.builder(packageName, annotatedClassName + "Linky" + linkValue.capitalize())
-                            .addFunction(FunSpec.builder("get" + linkValue.capitalize() + "Link")
-                                    .receiver(receiverClassName)
-                                    .throws(LinkNotResolvedException::class)
-                                    .addStatement("val a = 1")
-                                    .addStatement("return this.getLink(%T::class.java, %S)", clazzValue, linkValue)
-                                    .returns(returnClassName)
-                                    .build()
-                            )
-                            .build()
-                            .writeTo(filer)
+                        val linkValue = linky.linkName
+                        val clazzValue = typeUtils.asElement(linky.getClazz())
+
+                        val receiverClassName = ClassName(packageName, annotatedClassName)
+                        val linkClassName = ClassName.bestGuess(Link::class.qualifiedName.toString())
+                        val paramClassName = ClassName.bestGuess(clazzValue.toString())
+
+                        builder.addFunction(FunSpec.builder("get" + linkValue.capitalize() + "Link")
+                                .receiver(receiverClassName)
+                                .throws(LinkNotResolvedException::class)
+                                .addStatement("return this.getLink(%T::class.java, %S)", clazzValue, linkValue)
+                                .returns(linkClassName.parameterizedBy(paramClassName))
+                                .build()
+                        )
+
+                    }
+                    builder.build().writeTo(filer)
                 }
         return true
     }
 
 }
-/*
 
-fun TypeElement.packageName() = enclosingElement.packageName()
-
-private fun Element?.packageName(): String {
-    return when (this) {
-        is TypeElement -> packageName()
-        is PackageElement -> qualifiedName.toString()
-        else -> this?.enclosingElement?.packageName() ?: ""
+fun Linky.getClazz(): TypeMirror {
+    try {
+        this.clazz
+    } catch (mte: MirroredTypeException) {
+        return mte.typeMirror
     }
-}*/
-
-
+    throw RuntimeException("Type fetching failed")
+}

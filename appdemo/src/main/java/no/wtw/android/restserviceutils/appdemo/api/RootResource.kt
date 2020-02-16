@@ -1,8 +1,13 @@
 package no.wtw.android.restserviceutils.appdemo.api
 
 import no.wtw.android.annotation.linky.Linky
+import no.wtw.android.annotation.linky.Linkys
+import no.wtw.android.restserviceutils.appdemo.model.LoginResponse
 import no.wtw.android.restserviceutils.appdemo.model.MyModel
 import no.wtw.android.restserviceutils.resource.Resource
 
-@Linky("deviceRegistration", MyModel::class)
+@Linkys(
+        Linky("deviceRegistration", MyModel::class),
+        Linky("login", LoginResponse::class)
+)
 data class RootResource(val a: String) : Resource()

@@ -1,6 +1,9 @@
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
 
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
 compileKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
@@ -23,3 +26,4 @@ task sourcesJar(type: Jar) {
 artifacts {
     archives sourcesJar
 }
+

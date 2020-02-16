@@ -15,6 +15,14 @@ android {
         versionName "1.0"
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    kapt {
+        correctErrorTypes = true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -38,6 +46,11 @@ android {
         exclude 'META-INF/LGPL2.1'
         exclude 'LICENSE.txt'
         exclude 'LICENSE'
+    }
+
+    compileOptions {
+        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
     }
 
 }
