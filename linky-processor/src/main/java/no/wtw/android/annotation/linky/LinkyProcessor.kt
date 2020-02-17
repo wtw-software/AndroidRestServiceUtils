@@ -51,13 +51,18 @@ class LinkyProcessor : AbstractProcessor() {
                         val linkClassName = ClassName.bestGuess(Link::class.qualifiedName.toString())
                         val paramClassName = ClassName.bestGuess(clazzValue.toString())
 
-                        builder.addFunction(FunSpec.builder("get" + linkValue.toCamelCase() + "Link")
+                        val funSpec = FunSpec.builder("get" + linkValue.toCamelCase() + "Link")
                                 .receiver(receiverClassName)
                                 .throws(LinkNotResolvedException::class)
-                                .addStatement("return this.getLink(%T::class.java, %S)", clazzValue, linkValue)
-                                .returns(linkClassName.parameterizedBy(paramClassName))
-                                .build()
-                        )
+
+                        if (paramClassName.toString() == "java.lang.Object") {
+                            funSpec.addStatement("return this.getLink(%S)", linkValue)
+                            funSpec.returns(linkClassName.parameterizedBy(ClassName.bestGuess(Any::class.qualifiedName.toString())))
+                        } else {
+                            funSpec.addStatement("return this.getLink(%T::class.java, %S)", clazzValue, linkValue)
+                            funSpec.returns(linkClassName.parameterizedBy(paramClassName))
+                        }
+                        builder.addFunction(funSpec.build())
 
                     }
                     builder.build().writeTo(filer)

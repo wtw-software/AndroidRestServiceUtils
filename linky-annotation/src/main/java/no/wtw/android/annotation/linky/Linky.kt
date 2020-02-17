@@ -9,6 +9,6 @@ import kotlin.reflect.KClass
 @Repeatable
 annotation class Linky(
         val linkName: String = "",
-        val clazz: KClass<*>
+        val clazz: KClass<*> = Any::class
 )
 
