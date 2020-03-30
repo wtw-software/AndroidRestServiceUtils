@@ -34,6 +34,14 @@ public class Link<T> implements Serializable {
 
     private Map<String, String> queryParams;
 
+    public Link() {
+    }
+
+    public Link(String relation, String url) {
+        this.relation = relation;
+        this.url = url;
+    }
+
     public String getRelation() {
         return relation;
     }
