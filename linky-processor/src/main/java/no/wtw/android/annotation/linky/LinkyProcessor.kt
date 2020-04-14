@@ -5,7 +5,7 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.jvm.throws
-import no.wtw.android.restserviceutils.exceptions.LinkNotResolvedException
+import no.wtw.android.restserviceutils.exceptions.NoSuchLinkException
 import no.wtw.android.restserviceutils.resource.Link
 import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
@@ -53,7 +53,7 @@ class LinkyProcessor : AbstractProcessor() {
 
                         val funSpec = FunSpec.builder("get" + linkValue.toCamelCase() + "Link")
                                 .receiver(receiverClassName)
-                                .throws(LinkNotResolvedException::class)
+                                .throws(NoSuchLinkException::class)
 
                         if (paramClassName.toString() == "java.lang.Object") {
                             funSpec.addStatement("return this.getLink(%S)", linkValue)
