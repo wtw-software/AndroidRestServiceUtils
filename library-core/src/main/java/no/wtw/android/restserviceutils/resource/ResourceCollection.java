@@ -9,18 +9,18 @@ import java.util.List;
 public class ResourceCollection<D extends Comparable<? super D>> extends Resource {
 
     @SerializedName("resource")
-    private List<D> resources;
+    private List<D> items;
 
     private boolean isSorted;
 
-    public List<D> getResources() {
+    public List<D> getItems() {
         if (!isSorted) {
-            List<D> tmpList = new ArrayList<>(resources);
+            List<D> tmpList = new ArrayList<>(items);
             Collections.sort(tmpList);
-            resources = tmpList;
+            items = tmpList;
             isSorted = true;
         }
-        return resources;
+        return items;
     }
 
 }
