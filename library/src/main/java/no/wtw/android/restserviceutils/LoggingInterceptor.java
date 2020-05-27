@@ -26,7 +26,7 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
     public LoggingInterceptor(RestServiceAPI api) {
         super();
         api.getRestTemplate().setRequestFactory(
-                new BufferingClientHttpRequestFactory(new CustomRequestFactory())
+                new BufferingClientHttpRequestFactory(new CustomRequestFactory(api))
         );
     }
 

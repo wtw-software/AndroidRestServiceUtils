@@ -4,10 +4,10 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 
 public class CustomRequestFactory extends SimpleClientHttpRequestFactory {
 
-    public CustomRequestFactory() {
+    public CustomRequestFactory(RestServiceAPI api) {
         super();
-        setConnectTimeout(10000);
-        setReadTimeout(10000);
+        setConnectTimeout(api.getConnectTimeout());
+        setReadTimeout(api.getReadTimeout());
     }
 
 }

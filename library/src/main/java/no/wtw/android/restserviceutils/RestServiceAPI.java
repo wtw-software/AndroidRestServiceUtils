@@ -20,7 +20,7 @@ public abstract class RestServiceAPI<S> {
     private static final String TAG = RestServiceAPI.class.getSimpleName();
 
     public void setDefaultRequestFactory() {
-        getRestTemplate().setRequestFactory(new CustomRequestFactory());
+        getRestTemplate().setRequestFactory(new CustomRequestFactory(this));
     }
 
     public void setDefaultInterceptor() {
@@ -80,6 +80,14 @@ public abstract class RestServiceAPI<S> {
     }
 
     protected abstract S getService();
+
+    protected int getConnectTimeout() {
+        return 60000;
+    }
+
+    protected int getReadTimeout() {
+        return 60000;
+    }
 
     public interface Call<S, T> {
         T execute(S service);
