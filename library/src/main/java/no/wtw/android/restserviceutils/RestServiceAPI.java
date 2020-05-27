@@ -19,6 +19,10 @@ public abstract class RestServiceAPI<S> {
 
     private static final String TAG = RestServiceAPI.class.getSimpleName();
 
+    public void setDefaultRequestFactory() {
+        getRestTemplate().setRequestFactory(new CustomRequestFactory());
+    }
+
     public void setDefaultInterceptor() {
         ClientHttpRequestInterceptor i = new RestServiceRequestInterceptor(this);
         getRestTemplate().setInterceptors(Arrays.asList(i));

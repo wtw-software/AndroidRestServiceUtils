@@ -15,7 +15,6 @@ import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -27,7 +26,7 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
     public LoggingInterceptor(RestServiceAPI api) {
         super();
         api.getRestTemplate().setRequestFactory(
-                new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory())
+                new BufferingClientHttpRequestFactory(new CustomRequestFactory())
         );
     }
 
