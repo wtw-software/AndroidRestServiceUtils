@@ -1,3 +1,16 @@
-<manifest package="no.wtw.android.restserviceutils.appdemo">
-    <application />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="no.wtw.android.restserviceutils.appdemo">
+
+    <application android:label="DemoApp">
+
+        <activity
+            android:name=".activity.CoroutineActivity"
+            android:label="CoroutineActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
 </manifest>
