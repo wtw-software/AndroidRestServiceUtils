@@ -11,11 +11,10 @@ abstract class SimpleBackgroundTask<D> : BackgroundTask<D> {
 
     override fun onLoadSuccess(data: D) {}
 
-    override fun onLoadError(context: Context?, e: Exception) {
-        if (context != null)
-            Toast.makeText(context, e.message ?: "Unknown error", Toast.LENGTH_SHORT).show()
+    override fun onLoadError(context: Context, e: Exception) {
+        Toast.makeText(context, e.message ?: "Unknown error", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onLoadEnd(context: Context?) {}
+    override fun onLoadEnd(context: Context) {}
 
 }

@@ -44,13 +44,13 @@ class CoroutineActivity : Activity() {
                 log("onLoadSuccess()")
             }
 
-            override fun onLoadError(context: Context?, e: Exception) {
+            override fun onLoadError(context: Context, e: Exception) {
                 log("onLoadError() " + e.message)
                 Thread.sleep((Math.random() * 3000.0).toLong())
                 log("onLoadError()")
             }
 
-            override fun onLoadEnd(context: Context?) {
+            override fun onLoadEnd(context: Context) {
                 log("onLoadEnd()")
                 Thread.sleep((Math.random() * 3000.0).toLong())
                 log("onLoadEnd()")
