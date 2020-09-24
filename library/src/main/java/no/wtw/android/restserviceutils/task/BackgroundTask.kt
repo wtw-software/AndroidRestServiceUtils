@@ -11,7 +11,7 @@ interface BackgroundTask<D> {
 
     fun onLoadSuccess(data: D)
 
-    fun onLoadError(context: Context?, e: Exception?)
+    fun onLoadError(context: Context?, e: Exception)
 
     fun onLoadEnd(context: Context?)
 

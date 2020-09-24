@@ -1,30 +1,33 @@
 package no.wtw.android.restserviceutils.task
 
 import android.content.Context
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
-open class BackgroundLoader<D>(private val context: Context, private val callback: BackgroundTask<D>) {
+open class BackgroundLoader<D>(private val context: Context, private val task: BackgroundTask<D>) {
+
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     fun start() {
-        CoroutineScope(Dispatchers.Main).launch {
-            callback.onLoadStart()
+        scope.launch {
             load()
-            callback.onLoadEnd(context)
         }
     }
 
     private suspend fun load() {
+        task.onLoadStart()
         try {
-            val data: D = withContext(Dispatchers.IO) {
-                callback.onLoadExecute()
+            val data = withContext(Dispatchers.IO) {
+                task.onLoadExecute()
             }
-            callback.onLoadSuccess(data)
+            task.onLoadSuccess(data)
         } catch (e: Exception) {
-            callback.onLoadError(context, e)
+            if (scope.isActive)
+                task.onLoadError(context, e)
         }
+        if (scope.isActive)
+            task.onLoadEnd(context)
     }
+
+    fun cancel() = scope.cancel()
 
 }
