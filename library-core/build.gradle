@@ -3,7 +3,7 @@ apply plugin: 'java-library'
 dependencies {
     api 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     api 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
-    api 'com.google.code.gson:gson:2.8.5'
+    api 'com.google.code.gson:gson:2.8.6'
     //noinspection GradleDependency
     api 'commons-io:commons-io:2.4'
     api 'joda-time:joda-time:2.10'
