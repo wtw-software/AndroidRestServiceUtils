@@ -22,7 +22,8 @@ public class RestServiceRequestInterceptor implements ClientHttpRequestIntercept
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] data, ClientHttpRequestExecution execution) throws IOException {
         HttpHeaders headers = request.getHeaders();
-        headers.setUserAgent(UserAgentFormatter.getUserAgent(api.getContext()));
+        if (headers.getUserAgent().isEmpty())
+            headers.setUserAgent(UserAgentFormatter.getUserAgent(api.getContext()));
         headers.setAcceptLanguage(Locale.getDefault().getLanguage());
         HttpAuthentication authentication = api.getAuthentication();
         if (authentication != null)
