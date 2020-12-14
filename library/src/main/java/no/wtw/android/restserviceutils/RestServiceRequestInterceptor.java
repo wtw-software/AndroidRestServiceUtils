@@ -1,5 +1,7 @@
 package no.wtw.android.restserviceutils;
 
+import android.text.TextUtils;
+
 import org.springframework.http.HttpAuthentication;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
@@ -22,7 +24,7 @@ public class RestServiceRequestInterceptor implements ClientHttpRequestIntercept
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] data, ClientHttpRequestExecution execution) throws IOException {
         HttpHeaders headers = request.getHeaders();
-        if (headers.getUserAgent().isEmpty())
+        if (TextUtils.isEmpty(headers.getUserAgent()))
             headers.setUserAgent(UserAgentFormatter.getUserAgent(api.getContext()));
         headers.setAcceptLanguage(Locale.getDefault().getLanguage());
         HttpAuthentication authentication = api.getAuthentication();
