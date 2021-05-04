@@ -18,7 +18,7 @@ public class DateTimeSerializer implements JsonDeserializer<DateTime>, JsonSeria
 
     @Override
     public DateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        if (json == null || json.getAsString().isEmpty())
+        if (json == null || json.getAsString() == null || json.getAsString().isEmpty())
             return null;
         return TimeFormatUtil.getRFC822DateTimeFormatter().parseDateTime(json.getAsString());
     }
