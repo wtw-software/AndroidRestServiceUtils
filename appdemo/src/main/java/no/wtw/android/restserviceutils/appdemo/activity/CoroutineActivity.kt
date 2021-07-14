@@ -7,6 +7,7 @@ import android.widget.TextView
 import no.wtw.android.restserviceutils.appdemo.R
 import no.wtw.android.restserviceutils.task.BackgroundLoader
 import no.wtw.android.restserviceutils.task.BackgroundTask
+import no.wtw.android.restserviceutils.task.doInBackground
 
 class CoroutineActivity : Activity() {
 
@@ -56,6 +57,38 @@ class CoroutineActivity : Activity() {
                 log("onLoadEnd()")
             }
         }).start()
+
+        doInBackground<String>(this)
+            .onStart {
+                log("onLoadStart()")
+                Thread.sleep((Math.random() * 3000.0).toLong())
+                log("onLoadStart()")
+            }
+            .onExecute {
+                log("onLoadExecute()")
+                Thread.sleep((Math.random() * 3000.0).toLong())
+                if (Math.random() > 0.5)
+                    throw RuntimeException("RunTimeException")
+                log("onLoadExecute()")
+                ""
+            }
+            .onSuccess {
+                log("onLoadSuccess()")
+                Thread.sleep((Math.random() * 3000.0).toLong())
+                log("onLoadSuccess()")
+            }
+            .onError { ctx, e ->
+                log("onLoadError() " + e.message)
+                Thread.sleep((Math.random() * 3000.0).toLong())
+                log("onLoadError()")
+            }
+            .onEnd {
+                log("onLoadEnd()")
+                Thread.sleep((Math.random() * 3000.0).toLong())
+                log("onLoadEnd()")
+
+            }
+            .start()
     }
 
     fun log(msg: String) {
