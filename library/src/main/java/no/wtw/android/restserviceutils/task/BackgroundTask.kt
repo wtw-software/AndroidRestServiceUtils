@@ -1,7 +1,5 @@
 package no.wtw.android.restserviceutils.task
 
-import android.content.Context
-
 interface BackgroundTask<D> {
     fun onLoadStart()
 
@@ -10,8 +8,8 @@ interface BackgroundTask<D> {
 
     fun onLoadSuccess(data: D)
 
-    fun onLoadError(context: Context, e: Exception)
+    fun onLoadError(e: Exception)
 
-    fun onLoadEnd(context: Context)
+    fun onLoadEnd()
 
 }

@@ -1,9 +1,8 @@
 package no.wtw.android.restserviceutils.task
 
-import android.content.Context
 import kotlinx.coroutines.*
 
-open class BackgroundLoader<D>(private val context: Context, private val task: BackgroundTask<D>) {
+open class BackgroundLoader<D>(private val task: BackgroundTask<D>) {
 
     private val scope = CoroutineScope(Dispatchers.Main)
 
@@ -22,10 +21,10 @@ open class BackgroundLoader<D>(private val context: Context, private val task: B
             task.onLoadSuccess(data)
         } catch (e: Exception) {
             if (scope.isActive)
-                task.onLoadError(context, e)
+                task.onLoadError(e)
         }
         if (scope.isActive)
-            task.onLoadEnd(context)
+            task.onLoadEnd()
     }
 
     fun cancel() = scope.cancel()
