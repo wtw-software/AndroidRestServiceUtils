@@ -7,6 +7,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.jvm.throws
 import no.wtw.android.restserviceutils.exceptions.NoSuchLinkException
 import no.wtw.android.restserviceutils.resource.Link
+import java.util.*
 import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.ElementKind
@@ -84,6 +85,6 @@ fun Linky.getClazz(): TypeMirror {
 fun String.toCamelCase(): String {
     var result = ""
     val split = this.split("-", "_")
-    split.forEach { s -> result += s.capitalize() }
+    split.forEach { s -> result += s.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() } }
     return result
 }

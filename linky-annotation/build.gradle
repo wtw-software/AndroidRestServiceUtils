@@ -1,8 +1,7 @@
-apply plugin: 'java-library'
-apply plugin: 'kotlin'
-
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+plugins {
+    id 'java-library'
+    id 'kotlin'
+}
 
 compileKotlin {
     kotlinOptions {
@@ -23,3 +22,7 @@ artifacts {
     archives sourcesJar
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

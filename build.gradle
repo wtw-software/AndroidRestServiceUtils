@@ -1,12 +1,11 @@
 buildscript {
-    ext.kotlin_version = '1.4.20'
+    ext.kotlin_version = '1.5.31'
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+        classpath 'com.android.tools.build:gradle:7.0.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -20,7 +19,7 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'com.github.dcendents.android-maven'
+    apply plugin: 'maven-publish'
     group = 'com.github.wtw-software'
 }
 

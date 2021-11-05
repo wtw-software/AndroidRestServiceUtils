@@ -1,7 +1,6 @@
 package no.wtw.android.restserviceutils.appdemo.activity
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.widget.TextView
 import no.wtw.android.restserviceutils.appdemo.R
@@ -23,7 +22,7 @@ class CoroutineActivity : Activity() {
         super.onResume()
         log("")
 
-        val loader = BackgroundLoader(this, object : BackgroundTask<String> {
+        BackgroundLoader(object : BackgroundTask<String> {
             override fun onLoadStart() {
                 log("onLoadStart()")
                 Thread.sleep((Math.random() * 3000.0).toLong())
@@ -45,20 +44,20 @@ class CoroutineActivity : Activity() {
                 log("onLoadSuccess()")
             }
 
-            override fun onLoadError(context: Context, e: Exception) {
+            override fun onLoadError(e: Exception) {
                 log("onLoadError() " + e.message)
                 Thread.sleep((Math.random() * 3000.0).toLong())
                 log("onLoadError()")
             }
 
-            override fun onLoadEnd(context: Context) {
+            override fun onLoadEnd() {
                 log("onLoadEnd()")
                 Thread.sleep((Math.random() * 3000.0).toLong())
                 log("onLoadEnd()")
             }
         }).start()
 
-        doInBackground<String>(this)
+        doInBackground<String>()
             .onStart {
                 log("onLoadStart()")
                 Thread.sleep((Math.random() * 3000.0).toLong())
@@ -77,7 +76,7 @@ class CoroutineActivity : Activity() {
                 Thread.sleep((Math.random() * 3000.0).toLong())
                 log("onLoadSuccess()")
             }
-            .onError { ctx, e ->
+            .onError { e ->
                 log("onLoadError() " + e.message)
                 Thread.sleep((Math.random() * 3000.0).toLong())
                 log("onLoadError()")

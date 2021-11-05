@@ -1,8 +1,5 @@
 package no.wtw.android.restserviceutils.task
 
-import android.content.Context
-import android.widget.Toast
-
 abstract class SimpleBackgroundTask<D> : BackgroundTask<D> {
     override fun onLoadStart() {}
 
@@ -11,10 +8,8 @@ abstract class SimpleBackgroundTask<D> : BackgroundTask<D> {
 
     override fun onLoadSuccess(data: D) {}
 
-    override fun onLoadError(context: Context, e: Exception) {
-        Toast.makeText(context, e.message ?: "Unknown error", Toast.LENGTH_SHORT).show()
-    }
+    override fun onLoadError(e: Exception) {}
 
-    override fun onLoadEnd(context: Context) {}
+    override fun onLoadEnd() {}
 
 }
