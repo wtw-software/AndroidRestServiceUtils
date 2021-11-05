@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'kotlin'
+    id 'maven-publish'
 }
 
 compileKotlin {
@@ -11,6 +12,18 @@ compileKotlin {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                group 'com.github.wtw-software'
+                artifactId 'linky-annotation'
+                from components.java
+            }
+        }
+    }
 }
 
 task sourcesJar(type: Jar) {

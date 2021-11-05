@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'kotlin'
+    id 'maven-publish'
 }
 
 compileKotlin {
@@ -15,6 +16,18 @@ dependencies {
     api project(':linky-annotation')
     implementation project(':library-core')
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.5.31'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                group 'com.github.wtw-software'
+                artifactId 'linky-processor'
+                from components.java
+            }
+        }
+    }
 }
 
 task sourcesJar(type: Jar) {
