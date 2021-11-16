@@ -28,7 +28,7 @@ afterEvaluate {
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.java.srcDirs
-    classifier = 'sources'
+    archiveClassifier = 'sources'
 }
 
 artifacts {

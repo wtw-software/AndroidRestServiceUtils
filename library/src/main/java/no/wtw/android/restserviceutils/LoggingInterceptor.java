@@ -26,7 +26,7 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
     public LoggingInterceptor(RestServiceAPI api) {
         super();
         api.getRestTemplate().setRequestFactory(
-                new BufferingClientHttpRequestFactory(new CustomRequestFactory(api))
+            new BufferingClientHttpRequestFactory(new CustomRequestFactory(api))
         );
     }
 
@@ -57,7 +57,7 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
             StringWriter stringWriter = new StringWriter();
             JsonWriter jsonWriter = new JsonWriter(stringWriter);
             jsonWriter.setIndent("\u00A0\u00A0");
-            JsonElement jsonElement = new JsonParser().parse(body);
+            JsonElement jsonElement = JsonParser.parseString(body);
             gson.toJson(jsonElement, jsonWriter);
             return stringWriter.toString();
         } catch (JsonParseException e) {

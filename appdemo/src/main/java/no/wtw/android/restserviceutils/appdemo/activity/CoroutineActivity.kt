@@ -22,41 +22,6 @@ class CoroutineActivity : Activity() {
         super.onResume()
         log("")
 
-        BackgroundLoader(object : BackgroundTask<String> {
-            override fun onLoadStart() {
-                log("onLoadStart()")
-                Thread.sleep((Math.random() * 3000.0).toLong())
-                log("onLoadStart()")
-            }
-
-            override fun onLoadExecute(): String {
-                log("onLoadExecute()")
-                Thread.sleep((Math.random() * 3000.0).toLong())
-                if (Math.random() > 0.5)
-                    throw RuntimeException("RunTimeException")
-                log("onLoadExecute()")
-                return ""
-            }
-
-            override fun onLoadSuccess(data: String) {
-                log("onLoadSuccess()")
-                Thread.sleep((Math.random() * 3000.0).toLong())
-                log("onLoadSuccess()")
-            }
-
-            override fun onLoadError(e: Exception) {
-                log("onLoadError() " + e.message)
-                Thread.sleep((Math.random() * 3000.0).toLong())
-                log("onLoadError()")
-            }
-
-            override fun onLoadEnd() {
-                log("onLoadEnd()")
-                Thread.sleep((Math.random() * 3000.0).toLong())
-                log("onLoadEnd()")
-            }
-        }).start()
-
         doInBackground<String>()
             .onStart {
                 log("onLoadStart()")
