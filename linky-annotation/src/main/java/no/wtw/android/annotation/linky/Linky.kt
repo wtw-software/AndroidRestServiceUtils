@@ -8,7 +8,8 @@ import kotlin.reflect.KClass
 @Target(AnnotationTarget.CLASS)
 @Repeatable
 annotation class Linky(
-        val linkName: String = "",
-        val clazz: KClass<*> = Any::class
+    val linkName: String = "",
+    val clazz: KClass<*> = Any::class,
+    val methodName: String = "",
 )
 

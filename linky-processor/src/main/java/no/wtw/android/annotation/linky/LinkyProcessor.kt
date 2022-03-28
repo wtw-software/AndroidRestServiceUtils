@@ -47,12 +47,15 @@ class LinkyProcessor : AbstractProcessor() {
 
                         val linkValue = linky.linkName
                         val clazzValue = typeUtils.asElement(linky.getClazz())
+                        var methodName = linky.methodName
 
                         val receiverClassName = ClassName(packageName, annotatedClassName)
                         val linkClassName = ClassName.bestGuess(Link::class.qualifiedName.toString())
                         val paramClassName = ClassName.bestGuess(clazzValue.toString())
 
-                        val funSpec = FunSpec.builder("get" + linkValue.toCamelCase() + "Link")
+                        if(methodName.isBlank())
+                            methodName = "get" + linkValue.toCamelCase() + "Link"
+                        val funSpec = FunSpec.builder(methodName)
                                 .receiver(receiverClassName)
                                 .throws(NoSuchLinkException::class)
 
