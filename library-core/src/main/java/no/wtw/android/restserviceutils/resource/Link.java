@@ -83,6 +83,15 @@ public class Link<T> implements Serializable {
         });
     }
 
+    public T httpGet(final RestTemplate restTemplate, final String urlAppendix) throws RestServiceException {
+        if (clazz == null)
+            throw new RuntimeException("Class of return object must be set");
+        return executeHttpCall(() -> {
+            resource = restTemplate.getForObject(getUrl() + urlAppendix, clazz);
+            return resource;
+        });
+    }
+
     public T httpPut(final RestTemplate restTemplate, final T body) throws RestServiceException {
         return executeHttpCall(() -> {
             HttpEntity<T> requestEntity = new HttpEntity<>(body, new HttpHeaders());
