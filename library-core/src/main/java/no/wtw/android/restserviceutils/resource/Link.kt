@@ -21,7 +21,9 @@ class Link<T> : Serializable {
     }
 
     @Transient
-    private var resource: T? = null
+    private var _resource: T? = null
+    val resource: T
+        get() = _resource ?: throw LinkNotResolvedException()
 
     @Transient
     private var clazz: Class<T>? = null
@@ -60,8 +62,8 @@ class Link<T> : Serializable {
             httpGet(restTemplate, queryParams)
         else
             executeHttpCall {
-                resource = restTemplate.getForObject(url, clazz)
-                resource ?: throw RestServiceException("Body is null")
+                _resource = restTemplate.getForObject(url, clazz)
+                _resource ?: throw RestServiceException("Body is null")
             }
     }
 
@@ -70,8 +72,8 @@ class Link<T> : Serializable {
             throw RuntimeException("Class of return object must be set")
         return executeHttpCall {
             val url = url!!.replace("?data=Base64", "") // TODO: remove this hack
-            resource = restTemplate.getForObject(url + "?data=" + query.encode(true), clazz)
-            resource ?: throw RestServiceException("Body is null")
+            _resource = restTemplate.getForObject(url + "?data=" + query.encode(true), clazz)
+            _resource ?: throw RestServiceException("Body is null")
         }
     }
 
@@ -80,8 +82,8 @@ class Link<T> : Serializable {
         return executeHttpCall {
             var queryString = ""
             for (key in queryParams!!.keys) queryString += key + "=" + queryParams[key] + "&"
-            resource = restTemplate.getForObject(url + "?" + queryString.substring(0, queryString.length - 1), clazz)
-            resource ?: throw RestServiceException("Body is null")
+            _resource = restTemplate.getForObject(url + "?" + queryString.substring(0, queryString.length - 1), clazz)
+            _resource ?: throw RestServiceException("Body is null")
         }
     }
 
@@ -89,8 +91,8 @@ class Link<T> : Serializable {
         if (clazz == null)
             throw RuntimeException("Class of return object must be set")
         return executeHttpCall {
-            resource = restTemplate.getForObject(url + urlAppendix, clazz)
-            resource ?: throw RestServiceException("Body is null")
+            _resource = restTemplate.getForObject(url + urlAppendix, clazz)
+            _resource ?: throw RestServiceException("Body is null")
         }
     }
 
@@ -99,8 +101,8 @@ class Link<T> : Serializable {
             val requestEntity = HttpEntity(body, HttpHeaders())
             val responseEntity = restTemplate.exchange(URI.create(url), HttpMethod.PUT, requestEntity, clazz)
             if (HttpStatus.OK == responseEntity.statusCode)
-                resource = responseEntity.body
-            resource ?: throw RestServiceException("Body is null")
+                _resource = responseEntity.body
+            _resource ?: throw RestServiceException("Body is null")
         }
 
     fun httpPost(restTemplate: RestTemplate, body: Any?): T =
@@ -113,13 +115,8 @@ class Link<T> : Serializable {
             restTemplate.delete(url)
         }
 
-    fun getResource(): T {
-        if (resource == null) throw LinkNotResolvedException()
-        return resource ?: throw LinkNotResolvedException()
-    }
-
     val isResolved: Boolean
-        get() = resource != null
+        get() = _resource != null
 
     fun setClass(clazz: Class<T>?) {
         this.clazz = clazz
