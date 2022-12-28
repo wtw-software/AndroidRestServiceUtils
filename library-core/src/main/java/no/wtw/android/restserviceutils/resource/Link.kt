@@ -23,6 +23,7 @@ class Link<T> : Serializable {
     @Transient
     private var _resource: T? = null
     val resource: T
+        @Throws(LinkNotResolvedException::class)
         get() = _resource ?: throw LinkNotResolvedException()
 
     @Transient
@@ -44,16 +45,18 @@ class Link<T> : Serializable {
         this.url = url
     }
 
-    fun httpGet(client: OkHttpClient, gson: Gson): T {
-        val request = Request.Builder().url(url ?: throw RestServiceException("URL is null")).get().build()
-        client.newCall(request).execute().use { response ->
-            val body = response.body?.string() ?: ""
-            response.body?.close()
-            if (!response.isSuccessful)
-                throw RestServiceException(HttpStatus.valueOf(response.code), body)
-            return gson.fromJson(body, clazz)
+    fun httpGet(client: OkHttpClient, gson: Gson): T =
+        executeHttpCall {
+            val request = Request.Builder().url(url ?: throw RestServiceException("URL is null")).get().build()
+            client.newCall(request).execute().use { response ->
+                val body = response.body?.string() ?: ""
+                response.body?.close()
+                if (!response.isSuccessful)
+                    throw RestServiceException(HttpStatus.valueOf(response.code), body)
+                _resource = gson.fromJson(body, clazz)
+                _resource!!
+            }
         }
-    }
 
     fun httpGet(restTemplate: RestTemplate): T {
         if (clazz == null)
