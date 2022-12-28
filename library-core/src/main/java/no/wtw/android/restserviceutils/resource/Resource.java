@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
+import kotlin.Unit;
 import no.wtw.android.restserviceutils.exceptions.NoSuchLinkException;
 
 public class Resource implements Serializable, Comparable<Resource> {
@@ -12,7 +13,7 @@ public class Resource implements Serializable, Comparable<Resource> {
     @SerializedName("_links")
     public LinkList links;
 
-    public Link getLink(String type) throws NoSuchLinkException {
+    public Link<Unit> getLink(String type) throws NoSuchLinkException {
         return getLink(null, type);
     }
 
