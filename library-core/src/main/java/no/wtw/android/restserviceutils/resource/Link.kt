@@ -36,7 +36,7 @@ class Link<T> : Serializable {
     var url: String? = null
         protected set
 
-    private var queryParams: Map<String, String>? = null
+    var queryParams: Map<String, String>? = null
 
     constructor() {}
     constructor(relation: String?, url: String?) {
