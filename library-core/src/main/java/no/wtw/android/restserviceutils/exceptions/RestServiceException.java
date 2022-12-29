@@ -11,7 +11,6 @@ import no.wtw.android.restserviceutils.RestServiceErrorObject;
 
 public class RestServiceException extends IOException {
 
-    private static final String TAG = RestServiceException.class.getSimpleName();
     private HttpStatus statusCode;
     private RestServiceErrorObject errorObject;
 

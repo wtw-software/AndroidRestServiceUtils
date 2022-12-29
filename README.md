@@ -1,5 +1,5 @@
 # AndroidRestServiceUtils
-Collection of utility classes for faster setup for REST based APIs, using AndroidAnnotations and RestTemplate (Spring framework).
+Collection of utility classes for faster setup for REST based APIs.
 
 [![](https://jitpack.io/v/wtw-software/AndroidRestServiceUtils.svg)](https://jitpack.io/#wtw-software/AndroidRestServiceUtils)
 

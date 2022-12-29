@@ -27,10 +27,6 @@ public class RestServiceRequestInterceptor implements ClientHttpRequestIntercept
         if (TextUtils.isEmpty(headers.getUserAgent()))
             headers.setUserAgent(UserAgentFormatter.getUserAgent(api.getContext()));
         headers.setAcceptLanguage(Locale.getDefault().getLanguage());
-        HttpAuthentication authentication = api.getAuthentication();
-        if (authentication != null)
-            headers.setAuthorization(authentication);
-
         return execution.execute(request, data);
     }
 
