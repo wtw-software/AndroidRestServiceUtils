@@ -50,7 +50,7 @@ abstract class RestServiceAPI<S> {
     abstract val restTemplate: RestTemplate
     abstract val context: Context
 
-    val authentication: HttpAuthentication
+    val authentication: HttpAuthentication?
         get() = HttpBasicAuthentication("", "")
 
     @Throws(RestServiceException::class)
