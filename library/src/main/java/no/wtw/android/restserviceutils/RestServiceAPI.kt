@@ -7,7 +7,6 @@ import no.wtw.android.restserviceutils.exceptions.RestServiceException
 import no.wtw.android.restserviceutils.resource.JsonEncodedQuery
 import no.wtw.android.restserviceutils.resource.Link
 import okhttp3.OkHttpClient
-import org.springframework.http.*
 import java.util.*
 
 abstract class RestServiceAPI {
@@ -21,7 +20,7 @@ abstract class RestServiceAPI {
     @Throws(RestServiceException::class)
     fun assertIsOnline() {
         if (!isOnline)
-            throw RestServiceException(HttpStatus.SERVICE_UNAVAILABLE, "Network unavailable")
+            throw RestServiceException(HttpStatusCode.SERVICE_UNAVAILABLE, "Network unavailable")
     }
 
     val isOnline: Boolean

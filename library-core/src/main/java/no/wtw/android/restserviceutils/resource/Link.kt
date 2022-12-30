@@ -7,7 +7,6 @@ import no.wtw.android.restserviceutils.exceptions.RestServiceException
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.springframework.http.HttpStatus
 import java.io.Serializable
 
 class Link<T> : Serializable {
@@ -57,12 +56,11 @@ class Link<T> : Serializable {
                 throw RuntimeException("Class of return object must be set")
             val request = Request.Builder().url(url!!).get().build()
             client.newCall(request).execute().use { response ->
-                val body = response.body?.string() ?: ""
-                response.body?.close()
                 if (!response.isSuccessful)
-                    throw RestServiceException(HttpStatus.valueOf(response.code), body)
+                    throw RestServiceException.from(response)
+                val body = response.body?.string() ?: ""
                 _resource = gson.fromJson(body, clazz)
-                _resource ?: throw RestServiceException("Body is null")
+                _resource ?: throw NullPointerException("Body is null")
             }
         }
     }
@@ -76,12 +74,11 @@ class Link<T> : Serializable {
                 queryString += key + "=" + queryParams[key] + "&"
             val request = Request.Builder().url(url!! + "?" + queryString.substring(0, queryString.length - 1)).get().build()
             client.newCall(request).execute().use { response ->
-                val body = response.body?.string() ?: ""
-                response.body?.close()
                 if (!response.isSuccessful)
-                    throw RestServiceException(HttpStatus.valueOf(response.code), body)
+                    throw RestServiceException.from(response)
+                val body = response.body?.string() ?: ""
                 _resource = gson.fromJson(body, clazz)
-                _resource ?: throw RestServiceException("Body is null")
+                _resource ?: throw NullPointerException("Body is null")
             }
         }
     }
@@ -93,12 +90,11 @@ class Link<T> : Serializable {
             val url = url!!.replace("?data=Base64", "") // TODO: remove this hack
             val request = Request.Builder().url(url + "?data=" + query.encode(true)).get().build()
             client.newCall(request).execute().use { response ->
-                val body = response.body?.string() ?: ""
-                response.body?.close()
                 if (!response.isSuccessful)
-                    throw RestServiceException(HttpStatus.valueOf(response.code), body)
+                    throw RestServiceException.from(response)
+                val body = response.body?.string() ?: ""
                 _resource = gson.fromJson(body, clazz)
-                _resource ?: throw RestServiceException("Body is null")
+                _resource ?: throw NullPointerException("Body is null")
             }
         }
     }
@@ -109,12 +105,11 @@ class Link<T> : Serializable {
                 throw RuntimeException("Class of return object must be set")
             val request = Request.Builder().url(url!! + urlAppendix).get().build()
             client.newCall(request).execute().use { response ->
-                val body = response.body?.string() ?: ""
-                response.body?.close()
                 if (!response.isSuccessful)
-                    throw RestServiceException(HttpStatus.valueOf(response.code), body)
+                    throw RestServiceException.from(response)
+                val body = response.body?.string() ?: ""
                 _resource = gson.fromJson(body, clazz)
-                _resource ?: throw RestServiceException("Body is null")
+                _resource ?: throw NullPointerException("Body is null")
             }
         }
     }
@@ -128,12 +123,11 @@ class Link<T> : Serializable {
             val requestBody: RequestBody = jsonData.toRequestBody(mediaType)
             val request = Request.Builder().url(url!!).put(requestBody).build()
             client.newCall(request).execute().use { response ->
-                val body = response.body?.string() ?: ""
-                response.body?.close()
                 if (!response.isSuccessful)
-                    throw RestServiceException(HttpStatus.valueOf(response.code), body)
+                    throw RestServiceException.from(response)
+                val body = response.body?.string() ?: ""
                 _resource = gson.fromJson(body, clazz)
-                _resource ?: throw RestServiceException("Body is null")
+                _resource ?: throw NullPointerException("Body is null")
             }
         }
     }
@@ -147,23 +141,20 @@ class Link<T> : Serializable {
             val requestBody: RequestBody = jsonData.toRequestBody(mediaType)
             val request = Request.Builder().url(url!!).post(requestBody).build()
             client.newCall(request).execute().use { response ->
-                val body = response.body?.string() ?: ""
-                response.body?.close()
                 if (!response.isSuccessful)
-                    throw RestServiceException(HttpStatus.valueOf(response.code), body)
+                    throw RestServiceException.from(response)
+                val body = response.body?.string() ?: ""
                 gson.fromJson(body, clazz)
             }
         }
     }
 
-    fun httpDelete(client: OkHttpClient, gson: Gson) =
+    fun httpDelete(client: OkHttpClient, gson: Gson): Unit =
         executeHttpCall {
             val request = Request.Builder().url(url!!).delete().build()
             client.newCall(request).execute().use { response ->
-                val body = response.body?.string() ?: ""
-                response.body?.close()
                 if (!response.isSuccessful)
-                    throw RestServiceException(HttpStatus.valueOf(response.code), body)
+                    throw RestServiceException.from(response)
             }
         }
 
@@ -173,7 +164,7 @@ class Link<T> : Serializable {
         } catch (e: Exception) {
             if (e.message != null)
                 println(e.message)
-            throw RestServiceException.getInstance(e)
+            throw RestServiceException.from(e)
         }
     }
 
