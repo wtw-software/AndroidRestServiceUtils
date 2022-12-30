@@ -134,8 +134,6 @@ class Link<T> : Serializable {
 
     fun httpPost(client: OkHttpClient, gson: Gson, data: Any?): T {
         return executeHttpCall {
-            if (clazz == null)
-                throw RuntimeException("Class of return object must be set")
             val jsonData = data?.let { gson.toJson(it) } ?: ""
             val mediaType = "application/json; charset=utf-8".toMediaType()
             val requestBody: RequestBody = jsonData.toRequestBody(mediaType)
