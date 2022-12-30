@@ -141,8 +141,12 @@ class Link<T> : Serializable {
             client.newCall(request).execute().use { response ->
                 if (!response.isSuccessful)
                     throw RestServiceException.from(response)
-                val body = response.body?.string() ?: ""
-                gson.fromJson(body, clazz)
+                if (clazz == null) {
+                    Unit as T
+                } else {
+                    val body = response.body?.string() ?: ""
+                    gson.fromJson(body, clazz)
+                }
             }
         }
     }
