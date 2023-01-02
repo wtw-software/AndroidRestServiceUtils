@@ -1,5 +1,6 @@
 package no.wtw.android.restserviceutils.exceptions
 
+import no.wtw.android.restserviceutils.GsonSingleton
 import no.wtw.android.restserviceutils.HttpStatusCode
 import no.wtw.android.restserviceutils.RestServiceErrorObject
 import okhttp3.Response
@@ -30,11 +31,21 @@ class RestServiceException(
         }
 
         fun from(response: Response): RestServiceException {
-            var messages = response.headers(ERROR_MESSAGE_HEADER).joinToString(separator = "\n")
-            if (messages.isBlank())
-                messages = response.body?.string() ?: "Unknown error"
-            return RestServiceException(HttpStatusCode.from(response.code), messages)
+            val header = response.headers(ERROR_MESSAGE_HEADER).joinToString(separator = "\n")
+            if (header.isNotBlank())
+                return RestServiceException(HttpStatusCode.from(response.code), header)
+            val body = response.body?.string()
+                ?: return RestServiceException(HttpStatusCode.from(response.code), "Unknown error")
+            if (body.startsWith("{")) {
+                try {
+                    val errorObject = GsonSingleton.getInstance().fromJson(body, RestServiceErrorObject::class.java)!!
+                    return RestServiceException(HttpStatusCode.from(errorObject.code!!), errorObject.message!!)
+                } catch (_: Exception) {
+                }
+            }
+            return RestServiceException(HttpStatusCode.from(response.code), body)
         }
+
     }
 
     override val message: String
