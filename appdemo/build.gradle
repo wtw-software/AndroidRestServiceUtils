@@ -59,6 +59,4 @@ dependencies {
     implementation project(':library')
     implementation project(':linky-annotation')
     kapt project(':linky-processor')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
 }

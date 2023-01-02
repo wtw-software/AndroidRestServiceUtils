@@ -6,7 +6,6 @@ plugins {
 
 android {
     compileSdkVersion 33
-
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 33
@@ -48,7 +47,6 @@ android {
 dependencies {
     api project(':library-core')
     implementation "androidx.core:core-ktx:1.9.0"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 }
