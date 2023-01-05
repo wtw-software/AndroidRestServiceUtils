@@ -9,7 +9,6 @@ import java.io.IOException
 class RestServiceException(
     val statusCode: HttpStatusCode = HttpStatusCode.INTERNAL_SERVER_ERROR,
     message: String,
-    val errorObject: RestServiceErrorObject? = null,
     cause: Throwable? = null
 ) : IOException(message) {
 
@@ -48,12 +47,8 @@ class RestServiceException(
 
     }
 
-    override val message: String
-        get() = errorObject?.message?.takeIf { it.isNotBlank() } ?: super.message ?: ""
-
     override fun toString(): String {
-        var msg = statusCode.toString() + " " + statusCode.name + " - " + super.message
-        errorObject?.message?.takeIf { it.isNotBlank() }?.let { msg += " ($it)" }
+        var msg = "$statusCode - $message"
         cause?.let { msg += "\nCaused by: $it" }
         return msg
     }
