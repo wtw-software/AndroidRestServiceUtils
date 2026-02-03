@@ -9,9 +9,9 @@ import java.util.List;
 public class ResourceCollection<D extends Comparable<? super D>> extends Resource {
 
     @SerializedName("resource")
-    private List<D> items;
+    protected List<D> items;
 
-    private boolean isSorted;
+    protected boolean isSorted;
 
     public List<D> getItems() {
         if (!isSorted) {
