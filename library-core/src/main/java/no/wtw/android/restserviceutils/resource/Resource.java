@@ -8,7 +8,7 @@ import java.util.List;
 import kotlin.Unit;
 import no.wtw.android.restserviceutils.exceptions.NoSuchLinkException;
 
-public class Resource implements Serializable, Comparable<Resource> {
+public class Resource implements Serializable, Sortable {
 
     @SerializedName("_links")
     public LinkList links;
@@ -37,10 +37,6 @@ public class Resource implements Serializable, Comparable<Resource> {
     }
 
     @Override
-    public int compareTo(Resource o) {
-        return getSortOrder() - o.getSortOrder();
-    }
-
     public int getSortOrder() {
         return 0;
     }

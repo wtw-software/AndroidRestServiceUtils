@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ResourceCollection<D extends Comparable<? super D>> extends Resource {
+public class ResourceCollection<D extends Sortable> extends Resource {
 
     @SerializedName("resource")
     protected List<D> items;
@@ -16,11 +16,19 @@ public class ResourceCollection<D extends Comparable<? super D>> extends Resourc
     public List<D> getItems() {
         if (!isSorted) {
             List<D> tmpList = new ArrayList<>(items);
-            Collections.sort(tmpList);
+            Collections.sort(tmpList, (o1, o2) -> {
+                int i1 = (o1 == null) ? 0 : o1.getSortOrder();
+                int i2 = (o2 == null) ? 0 : o2.getSortOrder();
+                return i2 - i1;
+            });
             items = tmpList;
             isSorted = true;
         }
         return items;
     }
 
+}
+
+interface Sortable {
+    int getSortOrder();
 }
