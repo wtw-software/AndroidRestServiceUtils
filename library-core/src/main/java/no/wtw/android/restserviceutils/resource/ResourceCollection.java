@@ -19,7 +19,7 @@ public class ResourceCollection<D extends Sortable> extends Resource {
             Collections.sort(tmpList, (o1, o2) -> {
                 int i1 = (o1 == null) ? 0 : o1.getSortOrder();
                 int i2 = (o2 == null) ? 0 : o2.getSortOrder();
-                return i2 - i1;
+                return i1 - i2;
             });
             items = tmpList;
             isSorted = true;
