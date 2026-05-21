@@ -29,6 +29,3 @@ public class ResourceCollection<D extends Sortable> extends Resource {
 
 }
 
-interface Sortable {
-    int getSortOrder();
-}
