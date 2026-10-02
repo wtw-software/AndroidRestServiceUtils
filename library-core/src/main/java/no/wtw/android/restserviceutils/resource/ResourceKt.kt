@@ -14,7 +14,7 @@ abstract class ResourceKt : Serializable, Sortable {
     @Suppress("UNCHECKED_CAST")
     protected inline fun <reified T : Any> getLinkOrNull(type: String): Link<T>? {
         val link = links?.firstOrNull { it.relation == type } as? Link<T> ?: return null
-        link.setClass(T::class.java)
+        link.setClass(T::class)
         return link
     }
 

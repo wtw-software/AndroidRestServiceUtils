@@ -4,12 +4,15 @@ import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import no.wtw.android.restserviceutils.exceptions.LinkNotResolvedException
 import no.wtw.android.restserviceutils.exceptions.RestServiceException
-import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.Serializable
+import kotlin.reflect.KClass
 
-class Link<T> : Serializable {
+class Link<T : Any> : Serializable {
 
     companion object {
         const val LINK_SELF = "self"
@@ -22,7 +25,7 @@ class Link<T> : Serializable {
         get() = _resource ?: throw LinkNotResolvedException()
 
     @Transient
-    private var clazz: Class<T>? = null
+    var kclass: KClass<T>? = null
 
     @SerializedName("key")
     var relation: String? = null
@@ -43,8 +46,8 @@ class Link<T> : Serializable {
     val isResolved: Boolean
         get() = _resource != null
 
-    fun setClass(clazz: Class<T>?) {
-        this.clazz = clazz
+    fun setClass(kclass: KClass<T>?) {
+        this.kclass = kclass
     }
 
     fun httpGet(client: OkHttpClient, gson: Gson): T {
@@ -52,14 +55,14 @@ class Link<T> : Serializable {
         if (qp != null)
             return httpGet(client, gson, qp)
         return executeHttpCall {
-            if (clazz == null)
+            if (kclass == null)
                 throw RuntimeException("Class of return object must be set")
             val request = Request.Builder().url(url!!).get().build()
             client.newCall(request).execute().use { response ->
                 if (!response.isSuccessful)
                     throw RestServiceException.from(response)
                 val body = response.body?.string() ?: ""
-                _resource = gson.fromJson(body, clazz)
+                _resource = gson.fromJson(body, kclass?.java)
                 _resource ?: throw NullPointerException("Body is null")
             }
         }
@@ -67,7 +70,7 @@ class Link<T> : Serializable {
 
     fun httpGet(client: OkHttpClient, gson: Gson, queryParams: Map<String, String>): T {
         return executeHttpCall {
-            if (clazz == null)
+            if (kclass == null)
                 throw RuntimeException("Class of return object must be set")
             var queryString = ""
             for (key in queryParams.keys)
@@ -77,7 +80,7 @@ class Link<T> : Serializable {
                 if (!response.isSuccessful)
                     throw RestServiceException.from(response)
                 val body = response.body?.string() ?: ""
-                _resource = gson.fromJson(body, clazz)
+                _resource = gson.fromJson(body, kclass?.java)
                 _resource ?: throw NullPointerException("Body is null")
             }
         }
@@ -85,7 +88,7 @@ class Link<T> : Serializable {
 
     fun httpGet(client: OkHttpClient, gson: Gson, query: JsonEncodedQuery): T {
         return executeHttpCall {
-            if (clazz == null)
+            if (kclass == null)
                 throw RuntimeException("Class of return object must be set")
             val url = url!!.replace("?data=Base64", "") // TODO: remove this hack
             val request = Request.Builder().url(url + "?data=" + query.encode(true)).get().build()
@@ -93,7 +96,7 @@ class Link<T> : Serializable {
                 if (!response.isSuccessful)
                     throw RestServiceException.from(response)
                 val body = response.body?.string() ?: ""
-                _resource = gson.fromJson(body, clazz)
+                _resource = gson.fromJson(body, kclass?.java)
                 _resource ?: throw NullPointerException("Body is null")
             }
         }
@@ -101,14 +104,14 @@ class Link<T> : Serializable {
 
     fun httpGet(client: OkHttpClient, gson: Gson, urlAppendix: String): T {
         return executeHttpCall {
-            if (clazz == null)
+            if (kclass == null)
                 throw RuntimeException("Class of return object must be set")
             val request = Request.Builder().url(url!! + urlAppendix).get().build()
             client.newCall(request).execute().use { response ->
                 if (!response.isSuccessful)
                     throw RestServiceException.from(response)
                 val body = response.body?.string() ?: ""
-                _resource = gson.fromJson(body, clazz)
+                _resource = gson.fromJson(body, kclass?.java)
                 _resource ?: throw NullPointerException("Body is null")
             }
         }
@@ -116,7 +119,7 @@ class Link<T> : Serializable {
 
     fun httpPut(client: OkHttpClient, gson: Gson, data: T): T {
         return executeHttpCall {
-            if (clazz == null)
+            if (kclass == null)
                 throw RuntimeException("Class of return object must be set")
             val jsonData = data?.let { gson.toJson(it) } ?: ""
             val mediaType = "application/json; charset=utf-8".toMediaType()
@@ -126,7 +129,7 @@ class Link<T> : Serializable {
                 if (!response.isSuccessful)
                     throw RestServiceException.from(response)
                 val body = response.body?.string() ?: ""
-                _resource = gson.fromJson(body, clazz)
+                _resource = gson.fromJson(body, kclass?.java)
                 _resource ?: throw NullPointerException("Body is null")
             }
         }
@@ -141,11 +144,11 @@ class Link<T> : Serializable {
             client.newCall(request).execute().use { response ->
                 if (!response.isSuccessful)
                     throw RestServiceException.from(response)
-                if (clazz == null) {
+                if (kclass == null) {
                     Unit as T
                 } else {
                     val body = response.body?.string() ?: ""
-                    gson.fromJson(body, clazz)
+                    gson.fromJson(body, kclass?.java)
                 }
             }
         }

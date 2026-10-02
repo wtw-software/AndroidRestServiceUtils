@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import kotlin.Unit;
+import kotlin.reflect.KClass;
 import no.wtw.android.restserviceutils.exceptions.NoSuchLinkException;
 
 public class Resource implements Serializable, Sortable {
@@ -17,7 +18,7 @@ public class Resource implements Serializable, Sortable {
         return getLink(null, type);
     }
 
-    public <C, CC extends C> Link<C> getLink(Class<CC> clazz, String type) throws NoSuchLinkException {
+    public <C, CC extends C> Link<C> getLink(KClass<CC> clazz, String type) throws NoSuchLinkException {
         Link link = null;
         if (links != null && links.size() > 0)
             link = getLinkInternal(clazz, type, links);
@@ -26,7 +27,7 @@ public class Resource implements Serializable, Sortable {
         return link;
     }
 
-    private <C> Link getLinkInternal(Class<C> clazz, String type, List<Link> links) {
+    private <C> Link getLinkInternal(KClass<C> clazz, String type, List<Link> links) {
         for (Link link : links) {
             if (link.getRelation().equals(type)) {
                 link.setClass(clazz);
