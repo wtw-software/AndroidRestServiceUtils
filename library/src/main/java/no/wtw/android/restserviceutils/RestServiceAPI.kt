@@ -7,7 +7,6 @@ import no.wtw.android.restserviceutils.exceptions.RestServiceException
 import no.wtw.android.restserviceutils.resource.JsonEncodedQuery
 import no.wtw.android.restserviceutils.resource.Link
 import okhttp3.OkHttpClient
-import java.util.*
 
 abstract class RestServiceAPI {
 
@@ -38,9 +37,9 @@ abstract class RestServiceAPI {
 
 }
 
-fun <T> Link<T>.httpGet(api: RestServiceAPI): T = this.httpGet(api.getClient(), api.getGson())
-fun <T> Link<T>.httpGet(api: RestServiceAPI, queryParams: Map<String, String>): T = this.httpGet(api.getClient(), api.getGson(), queryParams)
-fun <T> Link<T>.httpGet(api: RestServiceAPI, query: JsonEncodedQuery): T = this.httpGet(api.getClient(), api.getGson(), query)
-fun <T> Link<T>.httpDelete(api: RestServiceAPI): Unit = this.httpDelete(api.getClient(), api.getGson())
-fun <T> Link<T>.httpPut(api: RestServiceAPI, body: T): T = this.httpPut(api.getClient(), api.getGson(), body)
-fun <T> Link<T>.httpPost(api: RestServiceAPI, body: Any?): T = this.httpPost(api.getClient(), api.getGson(), body)
+fun <T : Any> Link<T>.httpGet(api: RestServiceAPI): T = this.httpGet(api.getClient(), api.getGson())
+fun <T : Any> Link<T>.httpGet(api: RestServiceAPI, queryParams: Map<String, String>): T = this.httpGet(api.getClient(), api.getGson(), queryParams)
+fun <T : Any> Link<T>.httpGet(api: RestServiceAPI, query: JsonEncodedQuery): T = this.httpGet(api.getClient(), api.getGson(), query)
+fun <T : Any> Link<T>.httpDelete(api: RestServiceAPI): Unit = this.httpDelete(api.getClient(), api.getGson())
+fun <T : Any> Link<T>.httpPut(api: RestServiceAPI, body: T): T = this.httpPut(api.getClient(), api.getGson(), body)
+fun <T : Any> Link<T>.httpPost(api: RestServiceAPI, body: Any?): T = this.httpPost(api.getClient(), api.getGson(), body)

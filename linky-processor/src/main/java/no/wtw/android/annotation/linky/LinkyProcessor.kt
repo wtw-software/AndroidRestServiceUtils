@@ -63,7 +63,7 @@ class LinkyProcessor : AbstractProcessor() {
                             funSpec.addStatement("return this.getLink(%S)", linkValue)
                             funSpec.returns(linkClassName.parameterizedBy(ClassName.bestGuess(Unit::class.qualifiedName.toString())))
                         } else {
-                            funSpec.addStatement("return this.getLink(%T::class.java, %S)", clazzValue, linkValue)
+                            funSpec.addStatement("return this.getLink(%T::class, %S)", clazzValue, linkValue)
                             funSpec.returns(linkClassName.parameterizedBy(paramClassName))
                         }
                         builder.addFunction(funSpec.build())
