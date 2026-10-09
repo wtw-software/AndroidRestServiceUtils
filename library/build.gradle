@@ -59,10 +59,10 @@ dependencies {
 afterEvaluate {
     publishing {
         publications {
-            mavenAar(MavenPublication) {
+            release(MavenPublication) {
+                from components.release
                 group 'com.github.wtw-software'
                 artifactId 'library'
-                from components.release
             }
         }
     }
