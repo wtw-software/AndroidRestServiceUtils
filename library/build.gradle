@@ -42,11 +42,6 @@ android {
         jvmTarget = "1.8"
     }
 
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-        }
-    }
 }
 
 dependencies {
@@ -59,10 +54,10 @@ dependencies {
 afterEvaluate {
     publishing {
         publications {
-            release(MavenPublication) {
-                from components.release
+            mavenAar(MavenPublication) {
                 group 'com.github.wtw-software'
                 artifactId 'library'
+                from components.release
             }
         }
     }
