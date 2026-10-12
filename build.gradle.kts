@@ -12,10 +12,11 @@ subprojects {
                 maven {
                     name = "GitHubPackages"
                     url = uri("https://maven.pkg.github.com/wtw-software/AndroidRestServiceUtils")
-                    credentials {
-                        username = System.getenv("GITHUB_ACTOR")
-                        password = System.getenv("GITHUB_TOKEN")
-                    }
+                    // Resolved lazily from ORG_GRADLE_PROJECT_GitHubPackagesUsername /
+                    // ...Password. Explicit credentials would opt these tasks out of the
+                    // configuration cache, and are only required once a publish task is
+                    // actually scheduled, so local builds stay credential-free.
+                    credentials(PasswordCredentials::class)
                 }
             }
         }
