@@ -18,7 +18,7 @@ import javax.lang.model.util.Elements
 import javax.lang.model.util.Types
 
 @SupportedAnnotationTypes("*")
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
+@SupportedSourceVersion(SourceVersion.RELEASE_17)
 class LinkyProcessor : AbstractProcessor() {
 
     private lateinit var typeUtils: Types

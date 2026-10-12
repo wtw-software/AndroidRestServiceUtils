@@ -1,2 +1,0 @@
-include ':library', ':linky-annotation', ':linky-processor', ':library-core', ':appdemo'
-rootProject.name = 'AndroidRestServiceUtils'
