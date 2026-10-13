@@ -2,9 +2,7 @@ package no.wtw.android.restserviceutils
 
 import android.content.Context
 import android.net.ConnectivityManager
-import com.google.gson.Gson
 import no.wtw.android.restserviceutils.exceptions.RestServiceException
-import no.wtw.android.restserviceutils.resource.JsonEncodedQuery
 import no.wtw.android.restserviceutils.resource.Link
 import okhttp3.OkHttpClient
 
@@ -12,7 +10,7 @@ abstract class RestServiceAPI {
 
     /**
      * Convenience method that throws an exception if network connection is not available.
-     * May be overridden by sub class to provide better information on what to do in offline cases.
+     * May be overridden by subclass to provide better information on what to do in offline cases.
      *
      * @throws RestServiceException
      */
@@ -31,15 +29,13 @@ abstract class RestServiceAPI {
 
     abstract fun getContext(): Context
     abstract fun getClient(): OkHttpClient
-    abstract fun getGson(): Gson
+    abstract fun getJsonParser(): RestServiceJsonParser
     open fun getConnectTimeout() = 60000
     open fun getReadTimeout() = 60000
 
 }
 
-fun <T : Any> Link<T>.httpGet(api: RestServiceAPI): T = this.httpGet(api.getClient(), api.getGson())
-fun <T : Any> Link<T>.httpGet(api: RestServiceAPI, queryParams: Map<String, String>): T = this.httpGet(api.getClient(), api.getGson(), queryParams)
-fun <T : Any> Link<T>.httpGet(api: RestServiceAPI, query: JsonEncodedQuery): T = this.httpGet(api.getClient(), api.getGson(), query)
-fun <T : Any> Link<T>.httpDelete(api: RestServiceAPI): Unit = this.httpDelete(api.getClient(), api.getGson())
-fun <T : Any> Link<T>.httpPut(api: RestServiceAPI, body: T): T = this.httpPut(api.getClient(), api.getGson(), body)
-fun <T : Any> Link<T>.httpPost(api: RestServiceAPI, body: Any?): T = this.httpPost(api.getClient(), api.getGson(), body)
+fun <T : Any> Link<T>.httpGet(api: RestServiceAPI, queryParams: Map<String, String> = emptyMap()): T = this.httpGet(api.getClient(), api.getJsonParser(), queryParams)
+fun <T : Any> Link<T>.httpDelete(api: RestServiceAPI): Unit = this.httpDelete(api.getClient())
+fun <T : Any> Link<T>.httpPut(api: RestServiceAPI, body: T): T = this.httpPut(api.getClient(), api.getJsonParser(), body)
+fun <T : Any> Link<T>.httpPost(api: RestServiceAPI, body: Any?): T = this.httpPost(api.getClient(), api.getJsonParser(), body)
