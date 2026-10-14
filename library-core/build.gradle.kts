@@ -6,7 +6,6 @@ plugins {
 
 dependencies {
     api(libs.gson)
-    api(libs.commons.io)
     api(libs.joda.time)
     api(libs.okhttp)
     api(libs.okhttp.logging.interceptor)
