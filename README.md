@@ -1,7 +1,7 @@
 # AndroidRestServiceUtils
 Collection of utility classes for faster setup for REST based APIs.
 
-[![](https://jitpack.io/v/wtw-software/AndroidRestServiceUtils.svg)](https://jitpack.io/#wtw-software/AndroidRestServiceUtils)
+[![Latest release](https://img.shields.io/github/v/release/wtw-software/AndroidRestServiceUtils)](https://github.com/wtw-software/AndroidRestServiceUtils/packages)
 
 License
 -------
